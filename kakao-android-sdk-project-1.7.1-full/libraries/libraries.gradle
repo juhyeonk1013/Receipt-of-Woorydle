@@ -1,0 +1,266 @@
+subprojects {
+    apply plugin: 'com.android.library'
+    apply plugin: 'maven-publish'
+
+    android {
+        compileOptions.encoding = "UTF-8"
+        version = "${rootProject.version}${rootProject.versionNameSuffix}"
+        compileSdkVersion ANDROID_BUILD_SDK_VERSION
+        buildToolsVersion ANDROID_BUILD_TOOL_VERSION
+        group KAKAO_SDK_GROUP
+
+        packagingOptions {
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/NOTICE.txt'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/LICENSE.txt'
+        }
+
+        defaultConfig {
+            minSdkVersion ANDROID_BUILD_MIN_SDK_VERSION
+            targetSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION
+            versionCode rootProject.versionCode
+            versionName rootProject.version
+        }
+
+        buildTypes {
+            release {
+                debuggable false
+                minifyEnabled false
+            }
+
+            debug {
+                debuggable true
+                minifyEnabled false
+            }
+        }
+
+        flavorDimensions 'phase'
+
+        productFlavors {
+            alpha {
+                dimension 'phase'
+                buildConfigField 'String', 'DEPLOY_PHASE', '"alpha"'
+            }
+            sandbox {
+                dimension 'phase'
+                buildConfigField 'String', 'DEPLOY_PHASE', '"sandbox"'
+            }
+            beta {
+                dimension 'phase'
+                buildConfigField 'String', 'DEPLOY_PHASE', '"beta"'
+            }
+            real {
+                dimension 'phase'
+                buildConfigField 'String', 'DEPLOY_PHASE', '"real"'
+            }
+        }
+        variantFilter { variant ->
+            String phase = variant.flavors.find { it.dimension == 'phase'}.name
+            if (variant.buildType.name == 'release' && phase != 'real') {
+                setIgnore(true)
+            }
+//            if (variant.buildType.name == 'debug' && phase == 'real') {
+//                setIgnore(true)
+//            }
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+        }
+        lintOptions {
+            abortOnError false
+        }
+        ext.dependencyFlavors = [:]
+    }
+
+    android.productFlavors.findAll { it.dimension == 'phase'}.each { phase ->
+        task "publish${phase.name.capitalize()}" // define publish tasks for each server phase dimension
+    }
+
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = SOURCE_CLASSIFIER
+    }
+}
+
+configure(subprojects - project(':libraries:test-common')) {
+    dependencies {
+        testImplementation project(':libraries:test-common')
+        testImplementation "junit:junit:$JUNIT_VERSION"
+        testImplementation "org.robolectric:robolectric:$ROBOLECTRIC_VERSION"
+        testImplementation "org.robolectric:shadows-support-v4:$ROBOLECTRIC_VERSION"
+        testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
+        testImplementation "org.hamcrest:hamcrest-library:$HAMCREST_VERSION"
+    }
+
+    afterEvaluate {
+        publishing {
+            repositories {
+                maven {
+                    if (project.version.endsWith('-SNAPSHOT')) {
+                        url NEXUS_SNAPSHOT_REPOSITORY_URL
+                    } else {
+                        url NEXUS_RELEASE_REPOSITORY_URL
+                    }
+                    credentials {
+                        username NEXUS_USERNAME
+                        password NEXUS_PASSWORD
+                    }
+                }
+            }
+            android.libraryVariants.all { variant ->
+                publications {
+                    "$variant.name" (MavenPublication) {
+                        groupId KAKAO_SDK_GROUP
+                        version project.version
+                        artifactId "${project.name}${variant.artifactIdSuffix}"
+                        artifact sourcesJar
+                        variant.outputs.collect { output ->
+                            artifact(output.outputFile) {
+                                builtBy variant.assemble
+                            }
+                        }
+
+                        pom.withXml {
+                            def dependenciesNode = asNode().appendNode('dependencies')
+                            //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                            variant.compileConfiguration.allDependencies.each {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                if (it.hasProperty('dependencyProject')) {
+                                    dependencyNode.appendNode('groupId', it.group)
+                                    def flavor = android.dependencyFlavors[it.name]
+                                    List<String> idComponents = [it.name]
+                                    if (flavor) {
+                                        idComponents.add(flavor)
+                                    }
+                                    if (variant.phase == 'real' && variant.buildType.name == 'debug') idComponents.add(variant.buildType.name)
+                                    if (variant.phase != 'real') idComponents.add(variant.phase)
+                                    String finalArtifactId = idComponents.join('-')
+                                    // kakao sdk modules
+                                    dependencyNode.appendNode('artifactId', finalArtifactId)
+                                    dependencyNode.appendNode('version', project.version)
+                                    dependencyNode.appendNode('type', ARTIFACT_TYPE)
+                                } else {
+                                    // external dependencies
+                                    dependencyNode.appendNode('groupId', it.group)
+                                    dependencyNode.appendNode('artifactId', it.name)
+                                    dependencyNode.appendNode('version', it.version)
+                                }
+                            }
+
+                            def licenses = asNode().appendNode('licenses')
+                            def license = licenses.appendNode('license')
+                            license.appendNode('name', 'The Apache Software License, Version 2.0')
+                            license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+                            license.appendNode('distribution', 'repo')
+                        }
+                    }
+                }
+            }
+        }
+
+        android.libraryVariants.all { variant ->
+            variant.preBuild.dependsOn rootProject.bumpVersionInProperties
+            configurePublishProperties(variant)
+            variant.assemble.dependsOn "test${variant.name.capitalize()}UnitTest"
+            variant.assemble.doLast {
+                println "\n============================================================"
+                println "artifact id : ${project.name}${variant.artifactIdSuffix} (${variant.flavorName})"
+                println "artifact version : $project.version"
+                println "============================================================\n"
+            }
+        }
+    }
+
+    preBuild.dependsOn rootProject.bumpVersionInProperties
+
+    ext.configurePublishProperties = { variant ->
+        Collection<String> flavors = variant.baseName.split('-')
+        variant.productFlavors.find { it.dimension == 'phase'}.each { phase ->
+            variant.ext.phase = phase.name
+            project."publish${phase.name.capitalize()}".dependsOn "publish${variant.name.capitalize()}PublicationToMavenRepository"
+        }
+
+        flavors.remove('release')
+        if (variant.phase != 'real') {
+            flavors.remove('debug')
+        }
+        flavors.remove('full')
+        flavors.remove('real')
+
+        String modifiedFlavor = flavors.join('-')
+        variant.ext.artifactIdSuffix = modifiedFlavor == '' ? '' : "-$modifiedFlavor"
+    }
+}
+
+task aggregateJavadoc(type: Javadoc) {
+    source project(':libraries').subprojects.collect { project ->
+        project.android.sourceSets.main.java.srcDirs
+    }
+
+    classpath += files(project(':libraries').subprojects.collect { project ->
+        project.android.sourceSets.main.java.srcDirs
+    })
+
+    destinationDir = file("${rootProject.projectDir}/docs/")
+    title = "Kakao Android SDK - $rootProject.version"
+    description "Generates Javadoc for Kakao Android SDK - $project.version."
+
+    options {
+        locale = 'en_US'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+        author = false
+        noDeprecated = true
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/")
+
+        doclet = "com.kakao.tools.doclets.standard.Standard"
+        docletpath = [rootProject.file('./doctemplate/capri-doclet.jar')]
+        stylesheetFile = rootProject.file('./doctemplate/capri-javadoc-stylesheet.css')
+    }
+
+    exclude '**/*.kt'
+    exclude '**/StringSet.java'
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+    exclude '**/exception/**'
+    exclude '**/helper/**'
+    exclude '**/multipart/**'
+    exclude '**/request/**'
+    exclude '**/response/**'
+//    exclude '**/callback/**'
+    exclude '**/auth/callback/**'
+    exclude '**/kakaostory/callback/**'
+    exclude '**/kakaotalk/callback/**'
+    exclude '**/usermgmt/callback/**'
+
+    exclude '**/auth/network/**'
+    exclude '**/receiver/**'
+    exclude '**/internal/**'
+    exclude '**/tasks/**'
+    exclude '**/common/**'
+    exclude '**/api/**'
+    exclude '**/ageauth/**'
+    exclude '**/kakaolink/v2/network/**'
+    exclude '**/friends/**'
+    exclude '**/s2/**'
+    exclude '**/storage/**'
+    exclude '**/SingleNetworkTask.java'
+    exclude "**/apicompatibility/**"
+    exclude "**/test/**"
+}
+
+project(':libraries').subprojects { subProject ->
+    afterEvaluate {
+        aggregateJavadoc.classpath += files(android.libraryVariants.collect { variant ->
+            variant.javaCompile.classpath.files // external dependencies such as firebase, etc.
+        })
+
+        aggregateJavadoc.classpath += files(android.getBootClasspath().join(File.pathSeparator))
+        aggregateJavadoc.classpath += files("${subProject.android.sdkDirectory}/extras/android/support/v4/android-support-v4.jar")
+        aggregateJavadoc.options.linksOffline("http://d.android.com/reference", "${subProject.android.sdkDirectory}/docs/reference")
+    }
+}
