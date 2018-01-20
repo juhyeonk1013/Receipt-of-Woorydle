@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
         finish();
     }
     @Override public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
     }
 }
