@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class TextDetection extends Activity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyBuRUdARiJPXDqIP0noxr8q36vWxmTl8LM";
@@ -287,20 +288,49 @@ public class TextDetection extends Activity {
 
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
         String message = "I found these things:\n\n";
+        String price = "";
+        String receiptDate = "";
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
-        Log.d("kjh", " ");
         if (labels != null) {
-            Log.d("kjh", " ");
-            for (EntityAnnotation label : labels) {
+            message += labels.get(0).getDescription(); //인식된 모든 내용을 출력.
+            StringTokenizer st = new StringTokenizer(message,"\n");
+            while(st.hasMoreTokens()){
+                String token = st.nextToken();
+
+                //원이라는 단어를 포함하면 가격으로 인식. 그리고 마지막 가격이 최종 가격임을 고려.
+                if(token.charAt(token.length()-1)=='원'){
+                   //price +="\n";
+                    price = token;
+                }
+                //구분자 '/'를 포함하면 날짜로 인식하면서 2018/01 이런 방식으로 진행하기 때문에 '/'를 포함하더라도
+                // 2018같은 년도를 포함안하면 날짜로 인식 안하기 위해 4보단 큰 위치에 포함되어 있어야 한다고 고려.
+                if(token.contains("/")==true  && token.indexOf("/") >= 4){
+                    receiptDate = token.substring(token.indexOf("/")-4);
+                }
+            }
+
+            if(price == ""){
+                //가격이 인식되지 않은 경우
+            }
+            if(receiptDate == ""){
+                //날짜가 인식되지 않은 경우
+            }
+
+            message += "가격은 ----->  ";
+            message += price;
+            message += "\n날짜는 ----->  ";
+            message += receiptDate;
+
+           /* // 구글 제공 기본 코드
+             for (EntityAnnotation label : labels) {
                 message += String.format(Locale.KOREA, "%.3f: %s", label.getScore(), label.getDescription());
                 message += "\n";
-            }
+            }*/
         } else {
-            Log.d("nhj", " ");
-            message += "nothing";
+            message += "nothing"; //아무것도 인식되지 않음.
         }
 
-        return message;
+        return message; //이미지에서 글자를 추려낸 결과
     }
 }
