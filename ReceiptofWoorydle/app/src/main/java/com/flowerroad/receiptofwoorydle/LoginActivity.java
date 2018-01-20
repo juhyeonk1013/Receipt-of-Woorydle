@@ -1,13 +1,21 @@
 package com.flowerroad.receiptofwoorydle;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+
+import java.security.MessageDigest;
+
 /**
  * Created by gywls on 2018-01-16.
  */
@@ -20,6 +28,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide(); //상단바 숨기기
+
+        //해시키 받아오기
+        /*
+        try{
+            PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
+            for(Signature signature : info.signatures){
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+                messageDigest.update(signature.toByteArray());
+                Log.e("이것이 너의 해시키", android.util.Base64.encodeToString(messageDigest.digest(), Base64.NO_WRAP));
+            }
+        } catch (Exception e){
+            Log.d("error", "PackageInfo error is " + e.toString());
+        }
+        */
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
