@@ -17,7 +17,6 @@ import com.kakao.util.helper.log.Logger;
 
 public class KakaoSignupActivity extends Activity {
     public String userName;
-    public String userEmail;
     public String userImage;
     private ImageView myHeaderImage;
     private TextView myHeaderName;
@@ -64,7 +63,6 @@ public class KakaoSignupActivity extends Activity {
             public void onSuccess(UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
                 Logger.d("UserProfile : " + userProfile);
                 userName = userProfile.getNickname();
-                userEmail = userProfile.getEmail();
                 userImage = userProfile.getProfileImagePath();
                 redirectMainActivity(); // 로그인 성공시 MainActivity로
             }
@@ -72,9 +70,8 @@ public class KakaoSignupActivity extends Activity {
     }
 
     private void redirectMainActivity() {
-        Intent intent = new Intent(this, TextDetection.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("userName", userName);
-        intent.putExtra("userEmail", userEmail);
         intent.putExtra("userImage", userImage);
         startActivity(intent);
         finish();

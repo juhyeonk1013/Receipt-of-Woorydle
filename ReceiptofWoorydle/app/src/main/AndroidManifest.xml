@@ -10,8 +10,8 @@
     <application
         android:name=".GlobalApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/applogo"
+        android:label="우리들의 영수증"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".KakaoSignupActivity"></activity>
-        <activity android:name=".TextDetection">
-        </activity>
+        <activity android:name=".MainActivity">        </activity>
+        <activity android:name=".TextDetection">        </activity>
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="deea3ba3cef936a822bdeecc5a4c1ec0" />
         <activity
