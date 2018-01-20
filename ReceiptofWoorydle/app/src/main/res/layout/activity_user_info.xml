@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.flowerroad.receiptofwoorydle.MainActivity">
+
+    <ImageButton
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:onClick="onClickLogout"
+        android:src="@drawable/logout"
+        app:layout_anchor="@+id/user_name"
+        app:layout_anchorGravity="left|bottom" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="380dp"
+        android:layout_height="506dp"
+        android:layout_marginBottom="8dp"
+        android:text="ddddddddddddddddddddddd" />
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logout"
+        app:layout_anchorGravity="left|center" />
+
+    <Button
+        android:id="@+id/receipt_detect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="영수증 분석하기"
+        app:layout_anchor="@+id/user_name"
+        app:layout_anchorGravity="center" />
+</android.support.design.widget.CoordinatorLayout>

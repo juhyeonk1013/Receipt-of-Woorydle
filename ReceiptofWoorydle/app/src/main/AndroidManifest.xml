@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".KakaoSignupActivity"></activity>
-        <activity android:name=".TextDetection">
-        </activity>
+        <activity android:name=".MainActivity">        </activity>
+        <activity android:name=".TextDetection">        </activity>
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="deea3ba3cef936a822bdeecc5a4c1ec0" />
         <activity
