@@ -17,11 +17,9 @@ import com.kakao.util.helper.log.Logger;
 
 public class KakaoSignupActivity extends Activity {
     public String userName;
-    public String userEmail;
     public String userImage;
-    private ImageView myHeaderImage;
-    private TextView myHeaderName;
-    private TextView myHeaderEmail;
+    public String userEmail;
+
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
      * @param savedInstanceState 기존 session 정보가 저장된 객체
@@ -64,18 +62,18 @@ public class KakaoSignupActivity extends Activity {
             public void onSuccess(UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
                 Logger.d("UserProfile : " + userProfile);
                 userName = userProfile.getNickname();
-                userEmail = userProfile.getEmail();
                 userImage = userProfile.getProfileImagePath();
+                userEmail = userProfile.getEmail();
                 redirectMainActivity(); // 로그인 성공시 MainActivity로
             }
         });
     }
 
     private void redirectMainActivity() {
-        Intent intent = new Intent(this, TextDetection.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("userName", userName);
-        intent.putExtra("userEmail", userEmail);
         intent.putExtra("userImage", userImage);
+        intent.putExtra("userEmail",userEmail);
         startActivity(intent);
         finish();
     }
