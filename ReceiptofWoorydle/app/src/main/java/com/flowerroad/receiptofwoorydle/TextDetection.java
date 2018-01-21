@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +64,7 @@ public class TextDetection extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_text_detection);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -300,7 +301,7 @@ public class TextDetection extends Activity {
 
                 //원이라는 단어를 포함하면 가격으로 인식. 그리고 마지막 가격이 최종 가격임을 고려.
                 if(token.charAt(token.length()-1)=='원'){
-                   //price +="\n";
+                    //price +="\n";
                     price = token;
                 }
                 //구분자 '/'를 포함하면 날짜로 인식하면서 2018/01 이런 방식으로 진행하기 때문에 '/'를 포함하더라도

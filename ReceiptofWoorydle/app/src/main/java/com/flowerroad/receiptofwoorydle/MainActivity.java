@@ -1,15 +1,21 @@
 package com.flowerroad.receiptofwoorydle;
+
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -23,31 +29,38 @@ import java.net.URL;
  * Created by gywls on 2018-01-20.
  */
 
-public class MainActivity extends Activity {
-    public static String name;
-    public static String image;
+
+public class MainActivity extends AppCompatActivity {
+    public String name;
+    public String image;
+    public String email;
     public TextView userName;
     public ImageView userImage;
+    public TextView userEmail;
     public Button btn;
     Bitmap bitmap;
     private BackPressCloseHandler backPressCloseHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
+
         Intent intent = getIntent();
         if (intent != null) {
             // LoginActivity로부터 넘어온 데이터를 꺼낸다
             name = intent.getStringExtra("userName");
             image = intent.getStringExtra("userImage");
+            email = intent.getStringExtra("userEmail");
         }
-        ImageButton ibtn = (ImageButton) findViewById(R.id.logout);
+
         userImage = (ImageView) findViewById(R.id.user_image);
         userName = (TextView) findViewById(R.id.user_name);
+        userEmail = (TextView) findViewById(R.id.user_email);
 
         userName.setText(name+"님, 반갑습니다!");
+        userEmail.setText(email);
+
         Thread mThread=new Thread(){
             @Override
             public void run(){
@@ -65,6 +78,7 @@ public class MainActivity extends Activity {
                 }
             }
         };
+
         mThread.start();    //웹에서 이미지 가져오는 작업 시행
         try{
             //메인 스레드는 작업 스레드가 이미지 작업을 가져올 때까지
@@ -81,7 +95,7 @@ public class MainActivity extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TextDetection.class);
+                Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
                 startActivity(intent);
             }
         });
@@ -90,12 +104,28 @@ public class MainActivity extends Activity {
     }
 
     public void onClickLogout(View view) {
-        UserManagement.requestLogout(new LogoutResponseCallback() {
-            @Override
-            public void onCompleteLogout() {
-                redirectLoginActivity();
-            }
-        });
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MainActivity.this);
+        alert_confirm.setMessage("로그아웃 하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        UserManagement.requestLogout(new LogoutResponseCallback() {
+                            @Override
+                            public void onCompleteLogout() {
+                                redirectLoginActivity();
+                            }
+                        });
+                    }
+                }).setNegativeButton("취소",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'No'
+                        return;
+                    }
+                });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
     }
     protected void redirectLoginActivity() {
         final Intent intent = new Intent(this, LoginActivity.class);
