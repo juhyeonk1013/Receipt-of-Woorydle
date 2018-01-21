@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class TextDetection extends Activity {
+public class TextDetection extends AppCompatActivity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyBuRUdARiJPXDqIP0noxr8q36vWxmTl8LM";
     public static final String FILE_NAME = "temp.jpg";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
