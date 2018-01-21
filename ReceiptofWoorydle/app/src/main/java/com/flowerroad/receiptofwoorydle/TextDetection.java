@@ -1,4 +1,4 @@
-﻿package com.flowerroad.receiptofwoorydle;
+package com.flowerroad.receiptofwoorydle;
 
 import android.Manifest;
 import android.app.Activity;
@@ -63,7 +63,8 @@ public class TextDetection extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        // 지금은 임시적으로 여기서 activity_receipt_list.xml을 호출한 것 실제 호출은 ReceiptListActivity에서 할 예정
+        setContentView(R.layout.activity_receipt_list);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 

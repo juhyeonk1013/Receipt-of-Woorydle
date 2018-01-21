@@ -5,30 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.flowerroad.receiptofwoorydle.TextDetection">
+    tools:context="com.flowerroad.receiptofwoorydle.MainActivity">
 
-    <!--<android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>-->
-
-    <include layout="@layout/content_main" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <ImageButton
+        android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
 
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:onClick="onClickLogout"
+        android:src="@drawable/logout"
+        app:layout_anchor="@+id/user_name"
+        app:layout_anchorGravity="left|bottom" />
 
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="380dp"
+        android:layout_height="506dp"
+        android:layout_marginBottom="8dp"
+        android:text="ddddddddddddddddddddddd" />
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logout"
+        app:layout_anchorGravity="left|center" />
+
+    <Button
+        android:id="@+id/receipt_detect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="영수증 분석하기"
+        app:layout_anchor="@+id/user_name"
+        app:layout_anchorGravity="center" />
 </android.support.design.widget.CoordinatorLayout>
