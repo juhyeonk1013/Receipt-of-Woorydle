@@ -1,15 +1,19 @@
-package com.flowerroad.receiptofwoorydle;
+﻿package com.flowerroad.receiptofwoorydle;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -23,31 +27,38 @@ import java.net.URL;
  * Created by gywls on 2018-01-20.
  */
 
-public class MainActivity extends Activity {
-    public static String name;
-    public static String image;
+
+public class MainActivity extends AppCompatActivity {
+    public String name;
+    public String image;
+    public String email;
     public TextView userName;
     public ImageView userImage;
+    public TextView userEmail;
     public Button btn;
     Bitmap bitmap;
     private BackPressCloseHandler backPressCloseHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
         Intent intent = getIntent();
         if (intent != null) {
             // LoginActivity로부터 넘어온 데이터를 꺼낸다
             name = intent.getStringExtra("userName");
             image = intent.getStringExtra("userImage");
+            email = intent.getStringExtra("userEmail");
         }
-        ImageButton ibtn = (ImageButton) findViewById(R.id.logout);
+
         userImage = (ImageView) findViewById(R.id.user_image);
         userName = (TextView) findViewById(R.id.user_name);
+        userEmail = (TextView) findViewById(R.id.user_email);
 
         userName.setText(name+"님, 반갑습니다!");
+        userEmail.setText(email);
+
         Thread mThread=new Thread(){
             @Override
             public void run(){
@@ -65,6 +76,7 @@ public class MainActivity extends Activity {
                 }
             }
         };
+
         mThread.start();    //웹에서 이미지 가져오는 작업 시행
         try{
             //메인 스레드는 작업 스레드가 이미지 작업을 가져올 때까지

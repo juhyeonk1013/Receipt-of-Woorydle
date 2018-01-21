@@ -1,43 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="com.flowerroad.receiptofwoorydle.MainActivity">
 
-    <ImageButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:onClick="onClickLogout"
         android:src="@drawable/logout"
-        app:layout_anchor="@+id/user_name"
-        app:layout_anchorGravity="left|bottom" />
-
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="380dp"
-        android:layout_height="506dp"
-        android:layout_marginBottom="8dp"
-        android:text="ddddddddddddddddddddddd" />
-
-    <ImageView
-        android:id="@+id/user_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/logout"
-        app:layout_anchorGravity="left|center" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.966" />
 
     <Button
         android:id="@+id/receipt_detect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="영수증 분석하기"
         app:layout_anchor="@+id/user_name"
-        app:layout_anchorGravity="center" />
-</android.support.design.widget.CoordinatorLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.971" />
+
+    <ImageView
+        android:id="@+id/namecard"
+        android:layout_width="396dp"
+        android:layout_height="249dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/namecard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.005" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="185dp"
+        android:layout_height="24dp"
+        android:text="유저 이름"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.098" />
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="185dp"
+        android:layout_height="18dp"
+        android:text="유저 이메일"
+        android:textAlignment="textStart"
+        android:textColorLink="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="106dp"
+        android:layout_height="115dp"
+        android:src="@drawable/kakao_default_profile_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.102" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="147dp"
+        android:layout_height="149dp"
+        android:background="@drawable/dot"
+        android:shadowColor="@color/com_kakao_cancel_button_background"
+        android:text="+"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/namecard"
+        app:layout_constraintVertical_bias="0.073" />
+
+</android.support.constraint.ConstraintLayout>
+
