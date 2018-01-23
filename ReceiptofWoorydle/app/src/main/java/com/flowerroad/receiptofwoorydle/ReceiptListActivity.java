@@ -4,23 +4,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class ReceiptListActivity extends AppCompatActivity {
+    ArrayList<String> middleRow = new ArrayList<String>();
+    ArrayList<String> lastRow = new ArrayList<String>();
+    int total = 25000;
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_list);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         Button btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -37,33 +42,73 @@ public class ReceiptListActivity extends AppCompatActivity {
 
     public void viewReceipList(){
         TableLayout receiptList = (TableLayout) findViewById(R.id.receipt_list);
+        setRows();
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(new LayoutParams(
                 LayoutParams.FILL_PARENT,
                 LayoutParams.WRAP_CONTENT
         ));
-
         for(int i = 0; i < 5;i ++) {
             TextView b = new TextView(this);
-            b.setText("2018.01.17");
-            /*android:layout_margin="1dp"
-                android:gravity="center"
-                android:background="#00000000"
-                android:text=" "
-                android:textColor="#000000"
-                android:textSize="10sp"*/
+            b.setText(middleRow.get(i));
             b.setTextSize(10);
             b.setTextColor(Color.parseColor("#000000"));
+            b.setBackgroundColor(Color.parseColor("#F6F6F6"));
+
             b.setGravity(Gravity.CENTER);
             b.setLayoutParams(new LayoutParams(
                     LayoutParams.FILL_PARENT,
                     LayoutParams.WRAP_CONTENT
             ));
             tr.addView(b);
+            ViewGroup.MarginLayoutParams margin =
+                    new ViewGroup.MarginLayoutParams(b.getLayoutParams());
+            margin.setMargins(1, 1, 1, 1);
+            //b.setLayoutParams(new ConstraintLayout.LayoutParams(margin));
         }
         receiptList.addView(tr, new LayoutParams(
                 LayoutParams.FILL_PARENT,
                 LayoutParams.WRAP_CONTENT
         ));
+        TableRow tr2 = new TableRow(this);
+        tr2.setLayoutParams(new LayoutParams(
+                LayoutParams.FILL_PARENT,
+                LayoutParams.WRAP_CONTENT
+        ));
+        for(int i = 0; i < 5;i ++) {
+            TextView b = new TextView(this);
+            b.setText(lastRow.get(i));
+            b.setTextSize(10);
+            b.setTextColor(Color.parseColor("#000000"));
+            b.setBackgroundColor(Color.parseColor("#F6F6F6"));
+
+            b.setGravity(Gravity.CENTER);
+            b.setLayoutParams(new LayoutParams(
+                    LayoutParams.FILL_PARENT,
+                    LayoutParams.WRAP_CONTENT
+            ));
+            tr2.addView(b);
+            ViewGroup.MarginLayoutParams margin =
+                    new ViewGroup.MarginLayoutParams(b.getLayoutParams());
+            margin.setMargins(1, 1, 1, 1);
+            //b.setLayoutParams(new ConstraintLayout.LayoutParams(margin));
+        }
+        receiptList.addView(tr2, new LayoutParams(
+                LayoutParams.FILL_PARENT,
+                LayoutParams.WRAP_CONTENT
+        ));
+    }
+    void setRows(){
+        middleRow.add("2018/01/23");
+        middleRow.add("동대닭한마리");
+        middleRow.add("닭한마리");
+        middleRow.add("25,000");
+        middleRow.add(" ");
+
+        lastRow.add("합계");
+        lastRow.add(" ");
+        lastRow.add(" ");
+        lastRow.add(total+"원");
+        lastRow.add(" ");
     }
 }
