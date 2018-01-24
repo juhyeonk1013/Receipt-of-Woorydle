@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class TextDetection extends Activity {
+public class TextDetection extends AppCompatActivity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyBuRUdARiJPXDqIP0noxr8q36vWxmTl8LM";
     public static final String FILE_NAME = "temp.jpg";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
@@ -63,8 +64,7 @@ public class TextDetection extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 지금은 임시적으로 여기서 activity_receipt_list.xml을 호출한 것 실제 호출은 ReceiptListActivity에서 할 예정
-        setContentView(R.layout.activity_receipt_list);
+        setContentView(R.layout.activity_text_detection);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -301,7 +301,7 @@ public class TextDetection extends Activity {
 
                 //원이라는 단어를 포함하면 가격으로 인식. 그리고 마지막 가격이 최종 가격임을 고려.
                 if(token.charAt(token.length()-1)=='원'){
-                   //price +="\n";
+                    //price +="\n";
                     price = token;
                 }
                 //구분자 '/'를 포함하면 날짜로 인식하면서 2018/01 이런 방식으로 진행하기 때문에 '/'를 포함하더라도

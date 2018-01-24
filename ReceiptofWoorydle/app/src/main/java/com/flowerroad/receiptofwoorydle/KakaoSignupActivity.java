@@ -2,6 +2,8 @@ package com.flowerroad.receiptofwoorydle;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class KakaoSignupActivity extends Activity {
     public String userName;
     public String userImage;
     public String userEmail;
+    public int userid;
 
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
@@ -30,9 +33,13 @@ public class KakaoSignupActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestMe();
 
+        if(android.os.Build.VERSION.SDK_INT >9){
+            StrictMode.ThreadPolicy policy  = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
     }
 
-    /**
+    /*
      * 사용자의 상태를 알아 보기 위해 me API 호출을 한다.
      */
     protected void requestMe() { //유저의 정보를 받아오는 함수
@@ -64,6 +71,7 @@ public class KakaoSignupActivity extends Activity {
                 userName = userProfile.getNickname();
                 userImage = userProfile.getProfileImagePath();
                 userEmail = userProfile.getEmail();
+                userid = (int) userProfile.getId();
                 redirectMainActivity(); // 로그인 성공시 MainActivity로
             }
         });
@@ -74,6 +82,17 @@ public class KakaoSignupActivity extends Activity {
         intent.putExtra("userName", userName);
         intent.putExtra("userImage", userImage);
         intent.putExtra("userEmail",userEmail);
+
+        MariaConnect mariaConnect = new MariaConnect();
+        boolean isExist = mariaConnect.userExist(userid);
+        if(isExist == true){
+            //존재하면 바로 MainActivity로
+        }else{
+            //존재하지 않으면 디비에 등록.
+            Log.d("dddd "," falsefalse");
+            mariaConnect.signUpDB(userid,userName,userEmail);
+        }
+
         startActivity(intent);
         finish();
     }
