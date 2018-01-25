@@ -71,14 +71,13 @@ public class MariaConnect {
         try {
             String mySQL = "insert into user(id, name, email) values("+user_id+",\'"+user_name+"\',\'"+user_email+"\');";
             stmt = Conn.createStatement();
-            Log.d("MariaConnect"," falsefalsefalse");
+            Log.d("dddd"," falsefalsefalse");
             //삽입이나 수정시에는 executeUpdate 함수, rs는 int형을 사용하여야 하고
             //조회할때에는 executeQuery함수, rs는 ResultSet형을 사용하여야 한다.
             rs = stmt.executeUpdate(mySQL);
-            Log.d("MariaConnect"," falsefalsefalse_true");
+            Log.d("dddd"," falsefalsefalse_true");
             if(rs < 0){
                 //성공
-                Log.i("MariaConnect"," Inserted signUp info into database");
             }
 
 

@@ -1,8 +1,6 @@
 package com.flowerroad.receiptofwoorydle;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,36 +31,16 @@ public class ReceiptListActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder selectInsertBuilder = new AlertDialog.Builder(ReceiptListActivity.this);
-
-                final String str[] = {"영수증 인식","직접 입력"};
-                selectInsertBuilder.setTitle("등록 방법을 선택하세요")
-                        .setNegativeButton("Cancel", null)
-                        .setItems(str, // 리스트 목록에 사용할 배열
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        switch(which) {
-                                            case 0:
-                                                Intent intent = new Intent(ReceiptListActivity.this, TextDetection.class);
-                                                startActivity(intent);
-                                                break;
-                                            case 1:
-                                                insertReceiptContent();
-                                                break;
-                                        }
-                                    }
-                                }); // 클릭 리스너
-                AlertDialog dialog = selectInsertBuilder.create();    // 알림창 객체 생성
-                dialog.show();    // 알림창 띄우기
+                Intent intent = new Intent(ReceiptListActivity.this, TextDetection.class);
+                startActivity(intent);
             }
         });
         TextView teamName = (TextView) findViewById(R.id.team_name);
         teamName.setText("Flower Road");
-        viewReceiptList();
+        viewReceipList();
     }
 
-    public void viewReceiptList(){
+    public void viewReceipList(){
         TableLayout receiptList = (TableLayout) findViewById(R.id.receipt_list);
         setRows();
         TableRow tr = new TableRow(this);
@@ -133,9 +110,5 @@ public class ReceiptListActivity extends AppCompatActivity {
         lastRow.add(" ");
         lastRow.add(total+"원");
         lastRow.add(" ");
-    }
-
-    private void insertReceiptContent(){
-
     }
 }
