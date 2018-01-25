@@ -89,7 +89,7 @@ public class KakaoSignupActivity extends Activity {
             //존재하면 바로 MainActivity로
         }else{
             //존재하지 않으면 디비에 등록.
-            Log.d("dddd "," falsefalse");
+            Log.d("KakaoSignupActivity "," User not exist in MariaDB");
             mariaConnect.signUpDB(userid,userName,userEmail);
         }
 
