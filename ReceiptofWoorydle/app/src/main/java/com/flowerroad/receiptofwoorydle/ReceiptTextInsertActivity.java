@@ -1,64 +1,43 @@
 package com.flowerroad.receiptofwoorydle;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Toast;
-import com.google.android.gms.common.api.GoogleApiClient;
+import android.widget.EditText;
+import android.widget.TimePicker;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.support.v4.app.FragmentActivity;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * Created by jaeyeon on 2018-01-25.
  */
 
 public class ReceiptTextInsertActivity extends FragmentActivity  {
 
-    private GoogleApiClient mGoogleApiClient;
+    int mYear, mMonth, mDay, mHour, mMinute;
+    EditText mDateDisplay;
+    EditText mTimeDisplay;
+
+    //private GoogleApiClient mGoogleApiClient;
 
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_text_insert);
 
-        Button btn1 = (Button) findViewById(R.id.date_btn);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog
-                        (ReceiptTextInsertActivity.this, // 현재화면의 제어권자
-                                new DatePickerDialog.OnDateSetListener() {
-                                    public void onDateSet(DatePicker view,
-                                                          int year, int monthOfYear,int dayOfMonth) {
-                                        Toast.makeText(getApplicationContext(),
-                                                year+"년 "+(monthOfYear+1)+"월 "+dayOfMonth+"일 을 선택했습니다",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                , // 사용자가 날짜설정 후 다이얼로그 빠져나올때
-                                //    호출할 리스너 등록
-                                2015, 6, 21); // 기본값 연월일
-            }
-        });
-
+        //장소 입력상자
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -68,7 +47,6 @@ public class ReceiptTextInsertActivity extends FragmentActivity  {
                 // TODO: Get info about the selected place.
                 Log.i("ReceiptTextInsert", "Place: " + place.getName());
             }
-
             @Override
             public void onError(Status status) {
                 // TODO: Handle the error.
@@ -76,8 +54,36 @@ public class ReceiptTextInsertActivity extends FragmentActivity  {
             }
         });
 
+        //날짜 입력상자
+        mDateDisplay = (EditText) findViewById(R.id.date_insert);
+        mDateDisplay.setClickable(true);
+        mDateDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(ReceiptTextInsertActivity.this, mDateSetListener, mYear, mMonth, mDay).show();
+            }
+        });
 
+        //시간 입력상자
+        mTimeDisplay = (EditText) findViewById(R.id.time_insert);
+        mTimeDisplay.setClickable(true);
+        mTimeDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(ReceiptTextInsertActivity.this, mTimeSetListener, mHour, mMinute, false).show();
+            }
+        });
 
+        //현재 날짜와 시간을 가져오기위한 Calendar 인스턴스 선언
+        Calendar cal = new GregorianCalendar();
+        mYear = cal.get(Calendar.YEAR);
+        mMonth = cal.get(Calendar.MONTH);
+        mDay = cal.get(Calendar.DAY_OF_MONTH);
+        mHour = cal.get(Calendar.HOUR_OF_DAY);
+        mMinute = cal.get(Calendar.MINUTE);
+        UpdateNow();//화면에 텍스트뷰에 업데이트 해줌.
+
+        // 확인 버튼 리스너
         Button btn = (Button) findViewById(R.id.finish);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,21 +92,43 @@ public class ReceiptTextInsertActivity extends FragmentActivity  {
                 startActivity(TextDetectionIntent);
             }
         });
-
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-
     }
 
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        LatLng sydney = new LatLng(-33.852, 151.211);
-//        googleMap.addMarker(new MarkerOptions().position(sydney)
-//                .title("Marker in Sydney"));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//
-//    }
 
+
+    //날짜 대화상자 리스너 부분
+    DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            //사용자가 입력한 값을 가져온뒤
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+
+            //텍스트뷰의 값을 업데이트함
+            UpdateNow();
+        }
+
+    };
+
+    //시간 대화상자 리스너 부분
+    TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    //사용자가 입력한 값을 가져온뒤
+                    mHour = hourOfDay;
+                    mMinute = minute;
+
+                    //텍스트뷰의 값을 업데이트함
+                    UpdateNow();
+                }
+
+            };
+
+    void UpdateNow(){
+        mDateDisplay.setText(String.format(" %d-%d-%d", mYear, mMonth + 1, mDay));
+        mTimeDisplay.setText(String.format(" %d:%d", mHour, mMinute));
+    }
 
 }
