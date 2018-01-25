@@ -28,6 +28,9 @@
         <activity android:name=".TextDetection">        </activity>
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="deea3ba3cef936a822bdeecc5a4c1ec0" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCUu0OIk8jdlMPYasDKFYpcqzY9O_R_f44"/>
         <activity
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"
