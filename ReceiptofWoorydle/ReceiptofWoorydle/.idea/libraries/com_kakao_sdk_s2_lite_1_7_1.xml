@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.kakao.sdk:s2-lite-1.7.1">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/s2-lite-1.7.1.aar/f3c7a5d50d4cc6da7fe4b931dcf501d5/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/s2-lite-1.7.1.aar/f3c7a5d50d4cc6da7fe4b931dcf501d5/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.kakao.sdk/s2-lite/1.7.1/a6e61c81a3e26611fea422ced4343fb9162a24ee/s2-lite-1.7.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
