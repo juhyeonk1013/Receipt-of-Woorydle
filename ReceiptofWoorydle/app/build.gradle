@@ -53,4 +53,5 @@ dependencies {
     annotationProcessor 'com.google.auto.value:auto-value:1.2'
     implementation files('libs/mariadb-java-client-1.1.7.jar')
 
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
 }

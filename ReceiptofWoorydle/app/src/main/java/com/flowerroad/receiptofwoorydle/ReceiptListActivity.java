@@ -1,6 +1,8 @@
 package com.flowerroad.receiptofwoorydle;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,8 +33,30 @@ public class ReceiptListActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ReceiptListActivity.this, TextDetection.class);
-                startActivity(intent);
+                AlertDialog.Builder selectInsertBuilder = new AlertDialog.Builder(ReceiptListActivity.this);
+
+                final String str[] = {"영수증 인식","직접 입력"};
+                selectInsertBuilder.setTitle("등록 방법을 선택하세요")
+                        .setNegativeButton("Cancel", null)
+                        .setItems(str, // 리스트 목록에 사용할 배열
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch(which) {
+                                            case 0:
+                                                Intent TextDetectionIntent = new Intent(ReceiptListActivity.this, TextDetection.class);
+                                                startActivity(TextDetectionIntent);
+                                                break;
+                                            case 1:
+                                                Intent ReceiptTextInsertIntent = new Intent(ReceiptListActivity.this, ReceiptTextInsertActivity.class);
+                                                startActivity(ReceiptTextInsertIntent);
+                                                break;
+                                        }
+                                    }
+                                }); // 클릭 리스너
+                AlertDialog dialog = selectInsertBuilder.create();    // 알림창 객체 생성
+                dialog.show();    // 알림창 띄우기
+
             }
         });
         TextView teamName = (TextView) findViewById(R.id.team_name);
