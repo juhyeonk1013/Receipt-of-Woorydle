@@ -99,12 +99,21 @@ public class MainActivity extends AppCompatActivity {
         }catch(InterruptedException e){
 
         }
+        Button btn2 = (Button) findViewById(R.id.button);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
-                startActivity(intent);
+                startActivity(intent); 
             }
         });
 
