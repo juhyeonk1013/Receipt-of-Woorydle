@@ -20,25 +20,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.966" />
 
-    <Button
-        android:id="@+id/receipt_detect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="영수증 분석하기"
-        app:layout_anchor="@+id/user_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.156"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.971" />
 
     <ImageView
         android:id="@+id/namecard"
         android:layout_width="396dp"
         android:layout_height="249dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="4dp"
         android:src="@drawable/namecard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.235"
@@ -46,7 +32,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/user_name"
@@ -89,14 +75,15 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="277dp"
+        android:layout_height="273dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.992">
+        app:layout_constraintVertical_bias="1.0">
 
         <TableLayout
             android:id="@+id/team_list"

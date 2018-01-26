@@ -8,5 +8,11 @@
     tools:context="com.flowerroad.receiptofwoorydle.TextDetection">
 
    <!-- 선택한 팀 화면  -->
+   <TextView
+       android:id="@+id/introduce"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:text="팀 메인화면 입니다."
+       android:textSize="30sp" />
 
 </android.support.design.widget.CoordinatorLayout>

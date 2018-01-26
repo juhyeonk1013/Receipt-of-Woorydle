@@ -82,6 +82,7 @@ public class KakaoSignupActivity extends Activity {
         intent.putExtra("userName", userName);
         intent.putExtra("userImage", userImage);
         intent.putExtra("userEmail",userEmail);
+        intent.putExtra("userid",userid);
 
         MariaConnect mariaConnect = new MariaConnect();
         boolean isExist = mariaConnect.userExist(userid);
