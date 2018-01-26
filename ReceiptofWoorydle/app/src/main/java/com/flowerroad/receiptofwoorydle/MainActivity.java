@@ -5,15 +5,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -30,21 +36,28 @@ import java.net.URL;
  */
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddTeamDialog.AddTeamDialogListener {
+    private TextView textViewTeamname;
+
+    public String teamName = "Flower Load";
     public String name;
     public String image;
     public String email;
     public TextView userName;
     public ImageView userImage;
     public TextView userEmail;
-    public Button btn;
+    public Button btn;  //영수증 분석하기 버튼
+    public Button btn2; //팀 추가 버튼
     Bitmap bitmap;
+
     private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //btn=(Button)findViewById(R.id.add_team);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -91,16 +104,29 @@ public class MainActivity extends AppCompatActivity {
         }catch(InterruptedException e){
 
         }
+
         btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
-                startActivity(intent);
+                startActivity(intent); 
             }
         });
 
+        viewTeamList();
         backPressCloseHandler = new BackPressCloseHandler(this);
+    }
+
+    public void openDialog() {
+        AddTeamDialog addTeamDialog=new AddTeamDialog();
+        addTeamDialog.show(getSupportFragmentManager(), "add team dialog");
+    }
+
+    @Override
+    public void applyTexts(String teamname) {
+        teamName = teamname;
+        //textViewTeamname.setText(teamname);
     }
 
     public void onClickLogout(View view) {
@@ -133,8 +159,83 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
+    }
+
+    public void viewTeamList(){
+        int teamNum = 10;
+        TableLayout teamList = (TableLayout) findViewById(R.id.team_list);
+        TableRow tr;
+        tr = new TableRow(this);
+        tr.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.FILL_PARENT,
+                TableRow.LayoutParams.FILL_PARENT
+        ));
+
+        for(int i = 0; i < teamNum;i ++) {
+            Button ibtn = new Button(this);
+            String str=String.format("drawable/teamcard"+(i%4+1));
+            int imageResource = getResources().getIdentifier(str, null, getPackageName());
+
+            BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
+            Bitmap bitmap = drawable.getBitmap();
+            bitmap = Bitmap.createScaledBitmap(bitmap, 140*5, 149*5, true);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+
+            ibtn.setBackground(bitmapDrawable);
+            ibtn.setText(teamName);
+            ibtn.setTextColor(Color.BLACK);
+            ibtn.setTextSize(10);
+
+            tr.addView(ibtn);
+            if(i%2 ==1){
+                teamList.addView(tr, new TableRow.LayoutParams(
+                        TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.FILL_PARENT
+                ));
+
+                tr = new TableRow(this);
+                tr.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.FILL_PARENT
+                ));
+            }
+            ibtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        String str2=String.format("drawable/dot");
+        int imageResource2 = getResources().getIdentifier(str2, null, getPackageName());
+
+        BitmapDrawable drawable2 = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource2);
+        Bitmap bitmap2 = drawable2.getBitmap();
+        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 140*5, 140*5, true);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap2);
+
+        btn2 = new Button(this);
+        btn2.setBackground(bitmapDrawable);
+        //btn2.setShadowLayer(bitmapDrawable);
+        btn2.setText("+");
+        btn2.setTextColor(Color.parseColor("#BCBCBC"));
+        btn2.setTextSize(30);
+
+        tr.addView(btn2);
+        teamList.addView(tr);
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
+
     }
 }

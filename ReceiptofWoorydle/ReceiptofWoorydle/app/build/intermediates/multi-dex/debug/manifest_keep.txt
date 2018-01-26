@@ -1,0 +1,3 @@
+# Referenced at E:\sourcetree\ReceiptofWoorydle\ReceiptofWoorydle\app\build\intermediates\manifests\full\debug\AndroidManifest.xml:16
+-keep class com.flowerroad.receiptofwoorydle.GlobalApplication { <init>(...); }
+
