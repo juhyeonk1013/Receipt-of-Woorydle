@@ -39,14 +39,15 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements AddTeamDialog.AddTeamDialogListener {
     private TextView textViewTeamname;
 
+    public String teamName = "Flower Load";
     public String name;
     public String image;
     public String email;
     public TextView userName;
     public ImageView userImage;
     public TextView userEmail;
-    public Button btn;
-    public Button btn2;
+    public Button btn;  //영수증 분석하기 버튼
+    public Button btn2; //팀 추가 버튼
     Bitmap bitmap;
 
     private BackPressCloseHandler backPressCloseHandler;
@@ -56,13 +57,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn=(Button)findViewById(R.id.add_team);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialog();
-            }
-        });
+        //btn=(Button)findViewById(R.id.add_team);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -110,14 +105,14 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
         }
 
-        btn = (Button) findViewById(R.id.receipt_detect);
+        /*btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
                 startActivity(intent); 
             }
-        });
+        });*/
 
         viewTeamList();
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -130,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
     @Override
     public void applyTexts(String teamname) {
-        textViewTeamname.setText(teamname);
+        teamName = teamname;
+        //textViewTeamname.setText(teamname);
     }
 
     public void onClickLogout(View view) {
@@ -170,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     }
 
     public void viewTeamList(){
-        String teamName = "Flower Road";
         int teamNum = 10;
         TableLayout teamList = (TableLayout) findViewById(R.id.team_list);
         TableRow tr;
@@ -187,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
             BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
             Bitmap bitmap = drawable.getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, 140*4, 149*4, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 140*5, 149*5, true);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
 
             ibtn.setBackground(bitmapDrawable);
@@ -208,31 +203,21 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                         TableRow.LayoutParams.FILL_PARENT
                 ));
             }
+            ibtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
-        /*if(teamNum%2 == 1){
-            Button ibtn = new Button(this);
-            String str=String.format("drawable/teamcard"+(teamNum%4+1));
-            int imageResource = getResources().getIdentifier(str, null, getPackageName());
-
-            BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
-            Bitmap bitmap = drawable.getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, 140*4, 149*4, true);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-
-            ibtn.setBackground(bitmapDrawable);
-            ibtn.setText(teamName);
-            ibtn.setTextColor(Color.BLACK);
-            ibtn.setTextSize(10);
-
-            tr.addView(ibtn);
-        }*/
 
         String str2=String.format("drawable/dot");
         int imageResource2 = getResources().getIdentifier(str2, null, getPackageName());
 
         BitmapDrawable drawable2 = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource2);
         Bitmap bitmap2 = drawable2.getBitmap();
-        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 140*4, 140*4, true);
+        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 140*5, 140*5, true);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap2);
 
         btn2 = new Button(this);
@@ -244,6 +229,13 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
         tr.addView(btn2);
         teamList.addView(tr);
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
 
     }
 }

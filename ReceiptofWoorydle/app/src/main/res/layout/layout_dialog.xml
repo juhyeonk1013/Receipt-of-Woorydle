@@ -7,5 +7,5 @@
         android:id="@+id/edit_teamname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Teamname"/>
+        android:hint="Insert Team Name"/>
 </RelativeLayout>
