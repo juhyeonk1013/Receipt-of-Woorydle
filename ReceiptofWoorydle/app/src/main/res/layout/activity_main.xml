@@ -87,21 +87,79 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.102" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="147dp"
-        android:layout_height="149dp"
-        android:background="@drawable/dot"
-        android:shadowColor="@color/com_kakao_cancel_button_background"
-        android:text="+"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="30sp"
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="258dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/namecard"
-        app:layout_constraintVertical_bias="0.073" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.992">
 
+        <TableLayout
+            android:id="@+id/team_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--<TableRow
+                android:layout_width="match_parent"
+                android:layout_height="1dp">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="147dp"
+                    android:layout_height="149dp"
+                    android:background="@drawable/dot"
+                    android:shadowColor="@color/com_kakao_cancel_button_background"
+                    android:text="+"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="30sp"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    />
+                <ImageButton
+                    android:layout_width="147dp"
+                    android:layout_height="149dp"
+                    android:background="@drawable/dot"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/teamcard1"
+                     />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="147dp"
+                    android:layout_height="149dp"
+                    android:background="@drawable/dot"
+                    android:shadowColor="@color/com_kakao_cancel_button_background"
+                    android:text="+"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="30sp"
+
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.113"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/namecard"
+                    app:layout_constraintVertical_bias="0.073" />
+
+            </TableRow>-->
+
+        </TableLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
-

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ReceiptofWoorydle.iml" filepath="$PROJECT_DIR$/ReceiptofWoorydle.iml" />
+      <module fileurl="file://C:\Users\gywls\Documents\Receipt-of-Woorydle\ReceiptofWoorydle\ReceiptofWoorydle.iml" filepath="C:\Users\gywls\Documents\Receipt-of-Woorydle\ReceiptofWoorydle\ReceiptofWoorydle.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
