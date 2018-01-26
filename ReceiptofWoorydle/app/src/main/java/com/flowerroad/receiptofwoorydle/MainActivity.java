@@ -1,4 +1,4 @@
-package com.flowerroad.receiptofwoorydle;
+﻿package com.flowerroad.receiptofwoorydle;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -105,14 +105,14 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
         }
 
-        /*btn = (Button) findViewById(R.id.receipt_detect);
+        btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
                 startActivity(intent); 
             }
-        });*/
+        });
 
         viewTeamList();
         backPressCloseHandler = new BackPressCloseHandler(this);
