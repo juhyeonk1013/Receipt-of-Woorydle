@@ -1,5 +1,6 @@
 package com.flowerroad.receiptofwoorydle;
 
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -93,8 +94,6 @@ public class ReceiptTextInsertActivity extends FragmentActivity  {
             }
         });
     }
-
-
 
     //날짜 대화상자 리스너 부분
     DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
