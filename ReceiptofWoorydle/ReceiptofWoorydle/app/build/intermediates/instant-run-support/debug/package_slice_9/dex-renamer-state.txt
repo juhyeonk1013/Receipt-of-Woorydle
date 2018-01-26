@@ -1,0 +1,4 @@
+#Thu Jan 25 22:03:47 KST 2018
+base.0=E\:\\sourcetree\\ReceiptofWoorydle\\ReceiptofWoorydle\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\9
+path.0=classes.dex
+renamed.0=classes.dex

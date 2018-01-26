@@ -141,6 +141,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
+		    android:id="@+id/add_team"
                     android:layout_width="147dp"
                     android:layout_height="149dp"
                     android:background="@drawable/dot"

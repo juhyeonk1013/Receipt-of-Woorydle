@@ -36,7 +36,9 @@ import java.net.URL;
  */
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddTeamDialog.AddTeamDialogListener {
+    private TextView textViewTeamname;
+
     public String name;
     public String image;
     public String email;
@@ -53,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btn=(Button)findViewById(R.id.add_team);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -99,14 +109,6 @@ public class MainActivity extends AppCompatActivity {
         }catch(InterruptedException e){
 
         }
-        Button btn2 = (Button) findViewById(R.id.button);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
 
         viewTeamList();
         backPressCloseHandler = new BackPressCloseHandler(this);
+    }
+
+    public void openDialog() {
+        AddTeamDialog addTeamDialog=new AddTeamDialog();
+        addTeamDialog.show(getSupportFragmentManager(), "add team dialog");
+    }
+
+    @Override
+    public void applyTexts(String teamname) {
+        textViewTeamname.setText(teamname);
     }
 
     public void onClickLogout(View view) {
