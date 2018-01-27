@@ -9,8 +9,10 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     public Button btn;  //영수증 분석하기 버튼
     public Button btn2; //팀 추가 버튼
     Bitmap bitmap;
+    FloatingActionButton logoutBtn;
 
     private BackPressCloseHandler backPressCloseHandler;
 
@@ -111,16 +114,33 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         }catch(InterruptedException e){
 
         }
+<<<<<<< HEAD
         /*
         btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
+=======
+
+        logoutBtn = (FloatingActionButton) findViewById(R.id.logout);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+>>>>>>> NamHyojin
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
-                startActivity(intent); 
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && logoutBtn.getVisibility() == View.VISIBLE) {
+                    logoutBtn.hide();
+                } else if (dy < 0 && logoutBtn.getVisibility() != View.VISIBLE) {
+                    logoutBtn.show();
+                }
             }
         });
+<<<<<<< HEAD
         */
+=======
+
+
+
+>>>>>>> NamHyojin
         viewTeamList();
         backPressCloseHandler = new BackPressCloseHandler(this);
     }
@@ -274,4 +294,5 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         });
 
     }
+
 }
