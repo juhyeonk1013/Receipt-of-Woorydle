@@ -9,8 +9,10 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -26,26 +28,36 @@ import android.widget.Toolbar;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
 
 /**
  * Created by gywls on 2018-01-20.
  */
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddTeamDialog.AddTeamDialogListener {
+    private TextView textViewTeamname;
+
+    public String teamName = "Flower Load";
     public String name;
     public String image;
     public String email;
+    public int id;
     public TextView userName;
     public ImageView userImage;
     public TextView userEmail;
-    public Button btn;
-    public Button btn2;
+    public Button btn;  //영수증 분석하기 버튼
+    public Button btn2; //팀 추가 버튼
     Bitmap bitmap;
+    FloatingActionButton logoutBtn;
 
     private BackPressCloseHandler backPressCloseHandler;
 
@@ -54,12 +66,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //btn=(Button)findViewById(R.id.add_team);
+
         Intent intent = getIntent();
         if (intent != null) {
             // LoginActivity로부터 넘어온 데이터를 꺼낸다
             name = intent.getStringExtra("userName");
             image = intent.getStringExtra("userImage");
             email = intent.getStringExtra("userEmail");
+            id = intent.getIntExtra("userid",0);
         }
 
         userImage = (ImageView) findViewById(R.id.user_image);
@@ -99,26 +114,48 @@ public class MainActivity extends AppCompatActivity {
         }catch(InterruptedException e){
 
         }
-        Button btn2 = (Button) findViewById(R.id.button);
-        btn2.setOnClickListener(new View.OnClickListener() {
+
+        logoutBtn = (FloatingActionButton) findViewById(R.id.logout);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
-                startActivity(intent);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && logoutBtn.getVisibility() == View.VISIBLE) {
+                    logoutBtn.hide();
+                } else if (dy < 0 && logoutBtn.getVisibility() != View.VISIBLE) {
+                    logoutBtn.show();
+                }
             }
         });
 
-        btn = (Button) findViewById(R.id.receipt_detect);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
-                startActivity(intent); 
-            }
-        });
+
 
         viewTeamList();
         backPressCloseHandler = new BackPressCloseHandler(this);
+    }
+
+    public void openDialog() {
+        AddTeamDialog addTeamDialog=new AddTeamDialog();
+        addTeamDialog.show(getSupportFragmentManager(), "add team dialog");
+    }
+
+    @Override
+    public void applyTexts(String teamname) {
+        teamName = teamname;
+        //textViewTeamname.setText(teamname);
+
+        String team_id="";
+        team_id = RandomStringUtils.randomAlphabetic(5)+RandomStringUtils.randomNumeric(5).toString();
+        MariaConnect mariaConnect = new MariaConnect();
+        mariaConnect.makeTeam(id, team_id, teamname, name);
+
+        final Intent intent = new Intent(this, TeamMainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("teamid",team_id);
+        intent.putExtra("userid",id);
+        startActivity(intent);
+        finish();
     }
 
     public void onClickLogout(View view) {
@@ -158,8 +195,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewTeamList(){
-        String teamName = "Flower Road";
-        int teamNum = 10;
+        MariaConnect mariaConnect = new MariaConnect();
+        int teamNum = mariaConnect.getTeamNum(id); //마리아 디비에서 팀개수
+        //int teamNum = 10;
+        ArrayList<Team> team = new ArrayList<Team>();
+        team = mariaConnect.showTeam(id); //내가 가입된 팀
+
         TableLayout teamList = (TableLayout) findViewById(R.id.team_list);
         TableRow tr;
         tr = new TableRow(this);
@@ -168,18 +209,25 @@ public class MainActivity extends AppCompatActivity {
                 TableRow.LayoutParams.FILL_PARENT
         ));
 
-        for(int i = 0; i < teamNum;i ++) {
+        for(int i = 0; i < teamNum;i++) {
             Button ibtn = new Button(this);
             String str=String.format("drawable/teamcard"+(i%4+1));
             int imageResource = getResources().getIdentifier(str, null, getPackageName());
 
             BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
             Bitmap bitmap = drawable.getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, 140*4, 149*4, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 140*5, 140*5, true);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
 
+            String team_id="";
+            String team_name="";
+            team_id = team.get(i).getTeamid();
+            team_name=mariaConnect.getTeamName(team.get(i).getTeamid());
+            team.get(i).setTeamName(team_name);
+
             ibtn.setBackground(bitmapDrawable);
-            ibtn.setText(teamName);
+            //ibtn.setText(teamName);
+            ibtn.setText(team_name);
             ibtn.setTextColor(Color.BLACK);
             ibtn.setTextSize(10);
 
@@ -196,31 +244,26 @@ public class MainActivity extends AppCompatActivity {
                         TableRow.LayoutParams.FILL_PARENT
                 ));
             }
+
+            final String finalTeam_id = team_id;
+            ibtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
+                    Intent intent = new Intent(MainActivity.this, TeamMainActivity.class);
+                    intent.putExtra("teamid", finalTeam_id);
+                    intent.putExtra("userid",id);
+                    startActivity(intent);
+                }
+            });
         }
-        /*if(teamNum%2 == 1){
-            Button ibtn = new Button(this);
-            String str=String.format("drawable/teamcard"+(teamNum%4+1));
-            int imageResource = getResources().getIdentifier(str, null, getPackageName());
-
-            BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
-            Bitmap bitmap = drawable.getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, 140*4, 149*4, true);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-
-            ibtn.setBackground(bitmapDrawable);
-            ibtn.setText(teamName);
-            ibtn.setTextColor(Color.BLACK);
-            ibtn.setTextSize(10);
-
-            tr.addView(ibtn);
-        }*/
 
         String str2=String.format("drawable/dot");
         int imageResource2 = getResources().getIdentifier(str2, null, getPackageName());
 
         BitmapDrawable drawable2 = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource2);
         Bitmap bitmap2 = drawable2.getBitmap();
-        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 140*4, 140*4, true);
+        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 140*5, 140*5, true);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap2);
 
         btn2 = new Button(this);
@@ -233,5 +276,13 @@ public class MainActivity extends AppCompatActivity {
         tr.addView(btn2);
         teamList.addView(tr);
 
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
+
     }
+
 }

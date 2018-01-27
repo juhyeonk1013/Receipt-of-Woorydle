@@ -23,11 +23,21 @@ import java.util.ArrayList;
 public class ReceiptListActivity extends AppCompatActivity {
     ArrayList<String> middleRow = new ArrayList<String>();
     ArrayList<String> lastRow = new ArrayList<String>();
+    String team_id="";
+    String team_name="";
     int total = 25000;
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_list);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            // MainActivity로부터 넘어온 데이터를 꺼낸다
+            //name = intent.getStringExtra("userName");
+            team_id = intent.getStringExtra("teamid");
+            team_name = intent.getStringExtra("teamname");
+        }
 
         Button btn = (Button) findViewById(R.id.receipt_detect);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +70,7 @@ public class ReceiptListActivity extends AppCompatActivity {
             }
         });
         TextView teamName = (TextView) findViewById(R.id.team_name);
-        teamName.setText("Flower Road");
+        teamName.setText(team_name);
         viewReceipList();
     }
 

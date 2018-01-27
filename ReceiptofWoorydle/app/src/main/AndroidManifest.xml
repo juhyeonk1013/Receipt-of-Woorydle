@@ -22,10 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".KakaoSignupActivity"></activity>
-        <activity android:name=".MainActivity">        </activity>
-        <activity android:name=".ReceiptListActivity">        </activity>
-        <activity android:name=".ReceiptTextInsertActivity">        </activity>
-        <activity android:name=".TextDetection">        </activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ReceiptListActivity"></activity>
+        <activity android:name=".ReceiptTextInsertActivity"> </activity>
+        <activity android:name=".TextDetection"> </activity>
+        <activity android:name=".TeamMainActivity"> </activity>
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="deea3ba3cef936a822bdeecc5a4c1ec0" />
         <meta-data
