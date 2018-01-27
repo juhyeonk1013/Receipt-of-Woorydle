@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -54,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     public TextView userName;
     public ImageView userImage;
     public TextView userEmail;
-    public Button btn;  //영수증 분석하기 버튼
     public Button btn2; //팀 추가 버튼
     Bitmap bitmap;
     FloatingActionButton logoutBtn;
+    SwipeRefreshLayout swipeRefresh;
 
     private BackPressCloseHandler backPressCloseHandler;
 
@@ -114,16 +115,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         }catch(InterruptedException e){
 
         }
-<<<<<<< HEAD
-        /*
-        btn = (Button) findViewById(R.id.receipt_detect);
-        btn.setOnClickListener(new View.OnClickListener() {
-=======
-
-        logoutBtn = (FloatingActionButton) findViewById(R.id.logout);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
->>>>>>> NamHyojin
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -134,14 +125,15 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                 }
             }
         });
-<<<<<<< HEAD
-        */
-=======
-
-
-
->>>>>>> NamHyojin
         viewTeamList();
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewTeamList();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
         backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
@@ -165,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         intent.putExtra("teamid",team_id);
         intent.putExtra("userid",id);
         startActivity(intent);
-        finish();
+       // finish();
     }
 
     public void onClickLogout(View view) {
@@ -212,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         team = mariaConnect.showTeam(id); //내가 가입된 팀
 
         TableLayout teamList = (TableLayout) findViewById(R.id.team_list);
+        teamList.removeAllViews();
         TableRow tr;
         tr = new TableRow(this);
         tr.setLayoutParams(new TableRow.LayoutParams(
@@ -292,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                 openDialog();
             }
         });
-
     }
 
 }

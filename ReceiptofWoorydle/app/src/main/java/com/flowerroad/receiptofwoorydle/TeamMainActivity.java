@@ -44,9 +44,6 @@ public class TeamMainActivity extends AppCompatActivity {
 
         intro = (TextView) findViewById(R.id.introduce);
         intro.setText(team_name+"팀의 메인화면입니다.");
-<<<<<<< HEAD
-    }
-=======
 
         Button receiptBtn = (Button)findViewById(R.id.receipt_management);
         receiptBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,12 +65,5 @@ public class TeamMainActivity extends AppCompatActivity {
             }
         });*/
     }
-
-    /*뒤로버튼 누르면 Main Activity로 이동
-    public void onBackPressed() {
-        Intent intent = new Intent(TeamMainActivity.this, MainActivity.class);
-        startActivity(intent);
-    }*/
->>>>>>> NamHyojin
 }
 
