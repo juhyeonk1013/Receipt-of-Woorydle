@@ -1,4 +1,4 @@
-package com.flowerroad.receiptofwoorydle;
+﻿package com.flowerroad.receiptofwoorydle;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -115,16 +115,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         }catch(InterruptedException e){
 
         }
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && logoutBtn.getVisibility() == View.VISIBLE) {
-                    logoutBtn.hide();
-                } else if (dy < 0 && logoutBtn.getVisibility() != View.VISIBLE) {
-                    logoutBtn.show();
-                }
-            }
-        });
+
         viewTeamList();
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
