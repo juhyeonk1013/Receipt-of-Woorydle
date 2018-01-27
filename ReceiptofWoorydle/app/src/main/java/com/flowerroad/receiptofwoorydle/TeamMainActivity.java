@@ -65,11 +65,5 @@ public class TeamMainActivity extends AppCompatActivity {
             }
         });*/
     }
-
-    /*뒤로버튼 누르면 Main Activity로 이동
-    public void onBackPressed() {
-        Intent intent = new Intent(TeamMainActivity.this, MainActivity.class);
-        startActivity(intent);
-    }*/
 }
 
