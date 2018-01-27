@@ -115,10 +115,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         }catch(InterruptedException e){
 
         }
-
-        logoutBtn = (FloatingActionButton) findViewById(R.id.logout);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
