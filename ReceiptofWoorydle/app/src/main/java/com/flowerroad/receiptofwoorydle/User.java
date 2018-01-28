@@ -7,10 +7,19 @@ package com.flowerroad.receiptofwoorydle;
 public class User {
     private String userName;
     private String userEmail;
+    private int userID;
 
     public User(){
         userName=null;
         userEmail=null;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getUserName() {

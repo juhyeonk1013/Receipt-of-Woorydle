@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by juhyun on 2018-01-24.
@@ -94,11 +95,13 @@ public class MariaConnect {
         Connect();
         Statement stmt = null;
         int rs = -1;
+        Calendar cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format.format(cal.getTime());
 
         try {
             //team table에 저장
-            String mySQL = "insert into team(teamid, teamname, leader, date) values(\'"+team_id+"\',\'"+team_name+"\',\'"+leader_name+"\',\'"+format.toString()+"\');";
+            String mySQL = "insert into team(teamid, teamname, leader, date) values(\'"+team_id+"\',\'"+team_name+"\',\'"+leader_name+"\',\'"+date+"\');";
             stmt = Conn.createStatement();
             //삽입이나 수정시에는 executeUpdate 함수, rs는 int형을 사용하여야 하고
             //조회할때에는 executeQuery함수, rs는 ResultSet형을 사용하여야 한다.
@@ -132,12 +135,13 @@ public class MariaConnect {
         ResultSet rs = null;
         ArrayList<User> teamuser = new ArrayList<>();
         try {
-            String mySQL = "select * from user where id = (select user_id from teamlist where team_id=\'"+team_id +"\');";
+            String mySQL = "select user.id, user.name, user.email from user, teamlist where user.id = teamlist.user_id AND teamlist.team_id =\'"+team_id+"\';";
             stmt = Conn.createStatement();
 
             rs = stmt.executeQuery(mySQL);
             while(rs.next()) { //한 행씩 읽어들임.
                 User user = new User();
+                user.setUserID(rs.getInt("id"));
                 user.setUserName(rs.getString("name"));
                 user.setUserEmail(rs.getString("email"));
                 teamuser.add(user);
@@ -150,5 +154,80 @@ public class MariaConnect {
         }
 
         return teamuser;
+    }
+    //각 유저의 팀 개수 반환
+    public static int getTeamNum(int user_id){
+        int team_num=0;
+
+        Connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            String mySQL = "select COUNT(*) from teamlist where user_id="+user_id +";";
+            stmt = Conn.createStatement();
+
+            rs = stmt.executeQuery(mySQL);
+            if(rs.next()) { //한 행씩 읽어들임.
+                team_num = rs.getInt("COUNT(*)");
+            }
+
+            stmt.close();
+            Conn.close(); //사용한뒤 close
+
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+        }
+
+        return team_num;
+    }
+    //팀의 이름 반환
+    public static String getTeamName(String team_id){
+        String team_name="";
+
+        Connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            String mySQL = "select * from team where teamid = \'"+team_id+"\';";
+            stmt = Conn.createStatement();
+
+            rs = stmt.executeQuery(mySQL);
+            if(rs.next()) { //한 행씩 읽어들임.
+                team_name=rs.getString("teamname");
+            }
+
+            stmt.close();
+            Conn.close(); //사용한뒤 close
+
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+        }
+
+        return team_name;
+    }
+    //각 유저가 가입된 팀 리스트
+    public static ArrayList<Team> showTeam(int user_id){
+        Connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Team> team_list = new ArrayList<Team>();
+        try {
+            String mySQL = "select * from teamlist where user_id = "+user_id +";";
+            stmt = Conn.createStatement();
+
+            rs = stmt.executeQuery(mySQL);
+            while(rs.next()) { //한 행씩 읽어들임.
+                Team team = new Team();
+                team.setTeamid(rs.getString("team_id"));
+                team_list.add(team);
+            }
+
+            stmt.close();
+            Conn.close(); //사용한뒤 close
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+        }
+
+        return team_list;
     }
 }
