@@ -134,13 +134,18 @@ public class MariaConnect {
         ResultSet rs = null;
         ArrayList<User> teamuser = new ArrayList<>();
         try {
+<<<<<<< HEAD
             //mysql 고쳐야함. 그대로 사용하면 에러.
             String mySQL = "select * from user where id = (select user_id from teamlist where team_id=\'"+team_id +"\');";
+=======
+            String mySQL = "select user.id, user.name, user.email from user, teamlist where user.id = teamlist.user_id AND teamlist.team_id =\'"+team_id+"\';";
+>>>>>>> KimJuHyun
             stmt = Conn.createStatement();
 
             rs = stmt.executeQuery(mySQL);
             while(rs.next()) { //한 행씩 읽어들임.
                 User user = new User();
+                user.setUserID(rs.getInt("id"));
                 user.setUserName(rs.getString("name"));
                 user.setUserEmail(rs.getString("email"));
                 teamuser.add(user);

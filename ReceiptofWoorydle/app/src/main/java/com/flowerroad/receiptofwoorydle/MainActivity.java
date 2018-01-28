@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
             BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
             Bitmap bitmap = drawable.getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, 140*5, 140*5, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 100*5, 100*5, true);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
 
             String team_id="";
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
         BitmapDrawable drawable2 = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource2);
         Bitmap bitmap2 = drawable2.getBitmap();
-        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 140*5, 140*5, true);
+        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 100*5, 100*5, true);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap2);
 
         btn2 = new Button(this);

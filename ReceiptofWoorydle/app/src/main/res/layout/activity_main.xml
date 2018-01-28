@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.966" />
 
+<<<<<<< HEAD
 
     <ImageView
         android:id="@+id/namecard"
@@ -39,34 +40,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+=======
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+         >
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="185dp"
-        android:layout_height="24dp"
-        android:text="유저 이름"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.783"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.098" />
+        <RelativeLayout
+            android:background="@drawable/namecard"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+>>>>>>> KimJuHyun
 
-    <TextView
-        android:id="@+id/user_email"
-        android:layout_width="185dp"
-        android:layout_height="18dp"
-        android:text="유저 이메일"
-        android:textAlignment="textStart"
-        android:textColorLink="@android:color/darker_gray"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.783"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="185dp"
+                android:layout_height="24dp"
+                android:layout_alignStart="@+id/user_email"
+                android:layout_alignTop="@+id/user_image"
+                android:text="유저 이름"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.783"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.098" />
 
+            <TextView
+                android:id="@+id/user_email"
+                android:layout_width="185dp"
+                android:layout_height="18dp"
+                android:layout_below="@+id/user_name"
+                android:layout_marginStart="14dp"
+                android:layout_toEndOf="@+id/user_image"
+                android:text="유저 이메일"
+                android:textAlignment="textStart"
+                android:textColorLink="@android:color/darker_gray"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.783"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
+
+<<<<<<< HEAD
     <ImageView
         android:id="@+id/user_image"
         android:layout_width="106dp"
@@ -101,22 +121,79 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
+=======
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="106dp"
+                android:layout_height="115dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="18dp"
+                android:src="@drawable/kakao_default_profile_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.104"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.102" />
+        </RelativeLayout>
+>>>>>>> KimJuHyun
 
-        <TableLayout
-            android:id="@+id/team_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <ScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0">
+
+                <TableLayout
+                    android:id="@+id/team_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TableLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
 >>>>>>> NamHyojin
         </TableLayout>
     </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
+=======
+    </LinearLayout>
+>>>>>>> KimJuHyun
 </android.support.constraint.ConstraintLayout>

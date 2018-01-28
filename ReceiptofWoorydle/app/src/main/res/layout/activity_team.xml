@@ -9,6 +9,7 @@
     tools:context="com.flowerroad.receiptofwoorydle.TextDetection">
 
    <!-- 선택한 팀 화면  -->
+<<<<<<< HEAD
    <TextView
        android:id="@+id/introduce"
        android:layout_width="match_parent"
@@ -17,6 +18,12 @@
        android:text="팀 메인화면 입니다."
        android:textSize="30sp" />
 =======
+=======
+<!--
+   <TextView
+       android:id="@+id/introduce"
+       android:layout_width="match_parent"
+>>>>>>> KimJuHyun
        android:layout_height="wrap_content"
        android:text="팀 메인화면 입니다."
        android:textAlignment="center"
@@ -27,7 +34,10 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintVertical_bias="0.117"
        tools:layout_editor_absoluteX="0dp" />
+<<<<<<< HEAD
 >>>>>>> NamHyojin
+=======
+>>>>>>> KimJuHyun
 
    <Button
        android:id="@+id/receipt_management"
@@ -61,6 +71,105 @@
        app:layout_constraintVertical_bias="0.792"
        tools:layout_editor_absoluteX="16dp" />
 
+<<<<<<< HEAD
 
 
+=======
+-->
+
+   <TabHost
+       android:id="@+id/tab"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+         <FrameLayout
+             android:id="@android:id/tabcontent"
+             android:layout_weight="10"
+             android:layout_width="match_parent"
+             android:layout_height="0dp">
+
+            <LinearLayout
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+               <TextView
+                   android:id="@+id/introduce"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="팀 메인화면 입니다."
+                   android:textAlignment="center"
+                   android:textSize="30sp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_bias="0.117"
+                   tools:layout_editor_absoluteX="0dp" />
+
+               <Button
+                   android:id="@+id/receipt_management"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:background="@drawable/button_background"
+                   android:gravity="center"
+                   android:text="회비 내역 관리"
+                   android:textSize="20sp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_bias="0.585"
+                   tools:layout_editor_absoluteX="10dp" />
+
+               <Button
+                   android:id="@+id/member_management"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:background="@drawable/button_background"
+                   android:gravity="center"
+                   android:text="팀원 관리"
+                   android:textSize="20sp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_bias="0.792"
+                   tools:layout_editor_absoluteX="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/member"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Rececipt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+         </FrameLayout>
+
+         <TabWidget
+             android:id="@android:id/tabs"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_weight="1"/>
+
+      </LinearLayout>
+   </TabHost>
+>>>>>>> KimJuHyun
 </android.support.constraint.ConstraintLayout>
