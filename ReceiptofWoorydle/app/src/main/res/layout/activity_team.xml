@@ -9,21 +9,10 @@
     tools:context="com.flowerroad.receiptofwoorydle.TextDetection">
 
    <!-- 선택한 팀 화면  -->
-<<<<<<< HEAD
-   <TextView
-       android:id="@+id/introduce"
-       android:layout_width="match_parent"
-<<<<<<< HEAD
-       android:layout_height="match_parent"
-       android:text="팀 메인화면 입니다."
-       android:textSize="30sp" />
-=======
-=======
 <!--
    <TextView
        android:id="@+id/introduce"
        android:layout_width="match_parent"
->>>>>>> KimJuHyun
        android:layout_height="wrap_content"
        android:text="팀 메인화면 입니다."
        android:textAlignment="center"
@@ -34,10 +23,6 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintVertical_bias="0.117"
        tools:layout_editor_absoluteX="0dp" />
-<<<<<<< HEAD
->>>>>>> NamHyojin
-=======
->>>>>>> KimJuHyun
 
    <Button
        android:id="@+id/receipt_management"
@@ -70,11 +55,6 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintVertical_bias="0.792"
        tools:layout_editor_absoluteX="16dp" />
-
-<<<<<<< HEAD
-
-
-=======
 -->
 
    <TabHost
@@ -171,5 +151,4 @@
 
       </LinearLayout>
    </TabHost>
->>>>>>> KimJuHyun
 </android.support.constraint.ConstraintLayout>
