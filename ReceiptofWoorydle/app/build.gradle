@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.flowerroad.receiptofwoorydle"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -56,4 +56,6 @@ dependencies {
     implementation files('libs/mariadb-java-client-1.1.7.jar')
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
     implementation files('libs/commons-lang3-3.7.jar')
+
+    compile 'de.hdodenhof:circleimageview:2.2.0'
 }
