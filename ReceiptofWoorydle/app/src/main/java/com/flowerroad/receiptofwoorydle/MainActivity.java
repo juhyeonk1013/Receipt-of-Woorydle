@@ -3,10 +3,12 @@
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.support.design.widget.FloatingActionButton;
@@ -190,21 +192,22 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     public void viewTeamList(){
         MariaConnect mariaConnect = new MariaConnect();
         int teamNum = mariaConnect.getTeamNum(id); //마리아 디비에서 팀개수
-        //int teamNum = 10;
         ArrayList<Team> team = new ArrayList<Team>();
         team = mariaConnect.showTeam(id); //내가 가입된 팀
+        int[] colorSrc = {Color.parseColor("#FFBB00"),Color.parseColor("#5CD1E5"),Color.parseColor("#FFB2F5"),Color.parseColor("#47C83E")};
 
         TableLayout teamList = (TableLayout) findViewById(R.id.team_list);
         teamList.removeAllViews();
         TableRow tr;
         tr = new TableRow(this);
         tr.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.FILL_PARENT,
-                TableRow.LayoutParams.FILL_PARENT
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT
         ));
 
         for(int i = 0; i < teamNum;i++) {
             Button ibtn = new Button(this);
+            /*
             String str=String.format("drawable/teamcard"+(i%4+1));
             int imageResource = getResources().getIdentifier(str, null, getPackageName());
 
@@ -212,31 +215,34 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
             Bitmap bitmap = drawable.getBitmap();
             bitmap = Bitmap.createScaledBitmap(bitmap, 100*5, 100*5, true);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+            */
 
-            String team_id="";
-            String team_name="";
-            team_id = team.get(i).getTeamid();
-            team_name=mariaConnect.getTeamName(team.get(i).getTeamid());
+            String team_id = team.get(i).getTeamid();
+            String team_name = mariaConnect.getTeamName(team.get(i).getTeamid());
             team.get(i).setTeamName(team_name);
 
-            ibtn.setBackground(bitmapDrawable);
-            //ibtn.setText(teamName);
+            ibtn.setBackgroundTintList(ColorStateList.valueOf(colorSrc[i%4]));
+            ibtn.setBackgroundResource(R.drawable.button_background);
             ibtn.setText(team_name);
             ibtn.setTextColor(Color.BLACK);
-            ibtn.setTextSize(10);
+            ibtn.setTextSize(20);
+            ibtn.setWidth(0);
 
             tr.addView(ibtn);
+
+
             if(i%2 ==1){
                 teamList.addView(tr, new TableRow.LayoutParams(
-                        TableRow.LayoutParams.FILL_PARENT,
-                        TableRow.LayoutParams.FILL_PARENT
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT
                 ));
 
                 tr = new TableRow(this);
                 tr.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.FILL_PARENT,
-                        TableRow.LayoutParams.FILL_PARENT
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT
                 ));
+
             }
 
             final String finalTeam_id = team_id;
@@ -251,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                 }
             });
         }
-
+        /*
         String str2=String.format("drawable/dot");
         int imageResource2 = getResources().getIdentifier(str2, null, getPackageName());
 
@@ -259,13 +265,12 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         Bitmap bitmap2 = drawable2.getBitmap();
         bitmap2 = Bitmap.createScaledBitmap(bitmap2, 100*5, 100*5, true);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap2);
-
+        */
         btn2 = new Button(this);
-        btn2.setBackground(bitmapDrawable);
-        //btn2.setShadowLayer(bitmapDrawable);
         btn2.setText("+");
         btn2.setTextColor(Color.parseColor("#BCBCBC"));
         btn2.setTextSize(30);
+        btn2.setWidth(0);
 
         tr.addView(btn2);
         teamList.addView(tr);
