@@ -1,12 +1,22 @@
 package com.flowerroad.receiptofwoorydle;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -14,6 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.netty.channel.MaxBytesRecvByteBufAllocator;
 
 /**
  * Created by juhyun on 2018-01-26.
@@ -65,5 +79,19 @@ public class TeamMainActivity extends AppCompatActivity {
         ts3.setIndicator("RECEIPT") ;
         tabHost.addTab(ts3) ;
 
+        ArrayList<User> userArrayList = new ArrayList<User>();
+        userArrayList = mariaConnect.showTeamMember(team_id);
+
+        ArrayAdapter<User> adapter;
+        adapter = new ArrayAdapter<User>(this, android.R.layout.simple_expandable_list_item_1, userArrayList);
+
+        ListView list = (ListView) findViewById(R.id.memberList);
+        list.setAdapter(adapter);
+
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setDivider(new ColorDrawable(Color.WHITE));
+        list.setDividerHeight(2);
     }
+
+
 }

@@ -229,4 +229,26 @@ public class MariaConnect {
 
         return team_list;
     }
+
+    //팀원 초대
+    public void addTeamMember(int user_id, String team_id){
+        Connect();
+        Statement stmt = null;
+        int rs = -1;
+        ArrayList<Team> team_list = new ArrayList<Team>();
+        try {
+            String mySQL = "insert into teamlist(user_id, team_id) values("+user_id+",\'"+team_id+"\');";
+            stmt = Conn.createStatement();
+
+            rs = stmt.executeUpdate(mySQL);
+            if(rs < 0){
+                //실패
+            }
+            stmt.close();
+            Conn.close(); //사용한뒤 close
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+        }
+
+    }
 }
