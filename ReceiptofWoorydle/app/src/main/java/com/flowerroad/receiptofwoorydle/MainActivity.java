@@ -1,4 +1,4 @@
-﻿package com.flowerroad.receiptofwoorydle;
+package com.flowerroad.receiptofwoorydle;
 
 import android.app.Activity;
 import android.content.DialogInterface;

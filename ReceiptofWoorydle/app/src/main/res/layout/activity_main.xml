@@ -29,10 +29,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+<<<<<<< HEAD
         android:orientation="vertical">
+=======
+        android:orientation="vertical"
+        >
+>>>>>>> bb5435b256558b1c18feda737988df101e21f877
 
         <RelativeLayout
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="11dp"
             android:layout_weight="1"
             android:background="@drawable/namecard">
@@ -48,6 +54,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+=======
+            android:layout_height="0dp">
+>>>>>>> bb5435b256558b1c18feda737988df101e21f877
 
             <TextView
                 android:id="@+id/user_name"
@@ -82,6 +91,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.15" />
 
+<<<<<<< HEAD
 
 
             <TextView
@@ -113,12 +123,27 @@
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
+=======
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="106dp"
+                android:layout_height="115dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="18dp"
+                android:src="@drawable/kakao_default_profile_image"
+>>>>>>> bb5435b256558b1c18feda737988df101e21f877
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.783"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
                 app:layout_constraintVertical_bias="0.15" />
+=======
+                app:layout_constraintVertical_bias="0.102" />
+        </RelativeLayout>
+>>>>>>> bb5435b256558b1c18feda737988df101e21f877
 
         </RelativeLayout>
         <LinearLayout
@@ -148,6 +173,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
+<<<<<<< HEAD
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0">
 
@@ -167,5 +193,21 @@
                 </ScrollView>
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
+=======
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TableLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+
+>>>>>>> bb5435b256558b1c18feda737988df101e21f877
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
