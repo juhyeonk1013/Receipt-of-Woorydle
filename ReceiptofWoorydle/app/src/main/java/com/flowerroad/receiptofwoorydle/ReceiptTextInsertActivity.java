@@ -25,7 +25,7 @@ import java.util.GregorianCalendar;
  * Created by jaeyeon on 2018-01-25.
  */
 
-public class ReceiptTextInsertActivity extends FragmentActivity  {
+public class  ReceiptTextInsertActivity extends FragmentActivity  {
 
     int mYear, mMonth, mDay, mHour, mMinute;
     EditText mDateDisplay;

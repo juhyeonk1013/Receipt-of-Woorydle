@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
             team.get(i).setTeamName(team_name);
 
             ibtn.setBackgroundTintList(ColorStateList.valueOf(colorSrc[i%4]));
-            ibtn.setBackgroundResource(R.drawable.button_background);
+            //ibtn.setBackgroundResource(R.drawable.button_background);
             ibtn.setText(team_name);
             ibtn.setTextColor(Color.BLACK);
             ibtn.setTextSize(20);
@@ -249,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
             ibtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Intent intent = new Intent(MainActivity.this, ReceiptListActivity.class);
                     Intent intent = new Intent(MainActivity.this, TeamMainActivity.class);
                     intent.putExtra("teamid", finalTeam_id);
                     intent.putExtra("userid",id);

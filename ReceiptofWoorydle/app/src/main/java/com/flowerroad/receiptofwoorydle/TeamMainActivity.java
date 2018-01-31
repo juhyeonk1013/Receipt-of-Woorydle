@@ -30,8 +30,6 @@ public class TeamMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
 
-        //btn=(Button)findViewById(R.id.add_team);
-
         Intent intent = getIntent();
         if (intent != null) {
             // MainActivity로부터 넘어온 데이터를 꺼낸다
@@ -46,25 +44,26 @@ public class TeamMainActivity extends AppCompatActivity {
         intro = (TextView) findViewById(R.id.introduce);
         intro.setText(team_name+"팀의 메인화면입니다.");
 
-        Button receiptBtn = (Button)findViewById(R.id.receipt_management);
-        receiptBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TeamMainActivity.this, ReceiptListActivity.class);
-                intent.putExtra("teamid", team_id);
-                intent.putExtra("teamname", team_name);
-                startActivity(intent);
-            }
-        });
+        TabHost tabHost = (TabHost) findViewById(R.id.tab);
+        tabHost.setup();
 
-        Button memberBtn = (Button)findViewById(R.id.member_management);
-        /*receiptBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TeamMainActivity.this, MemberListActivity.class);
-                startActivity(intent);
-            }
-        });*/
+        // 첫 번째 Tab. (탭 표시 텍스트:"HOME"), (페이지 뷰:"home")
+        TabHost.TabSpec ts1 = tabHost.newTabSpec("Tab Spec 1") ;
+        ts1.setContent(R.id.home);
+        ts1.setIndicator("HOME");
+        tabHost.addTab(ts1)  ;
+
+        // 두 번째 Tab. (탭 표시 텍스트:"MEMBER"), (페이지 뷰:"member")
+        TabHost.TabSpec ts2 = tabHost.newTabSpec("Tab Spec 2") ;
+        ts2.setContent(R.id.member) ;
+        ts2.setIndicator("MEMBER") ;
+        tabHost.addTab(ts2) ;
+
+        // 세 번째 Tab. (탭 표시 텍스트:"RECEITP"), (페이지 뷰:"receipt")
+        TabHost.TabSpec ts3 = tabHost.newTabSpec("Tab Spec 3") ;
+        ts3.setContent(R.id.receipt) ;
+        ts3.setIndicator("RECEIPT") ;
+        tabHost.addTab(ts3) ;
+
     }
 }
-
