@@ -2,6 +2,7 @@ package com.flowerroad.receiptofwoorydle;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -9,16 +10,21 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,19 +85,111 @@ public class TeamMainActivity extends AppCompatActivity {
         ts3.setIndicator("RECEIPT") ;
         tabHost.addTab(ts3) ;
 
+        showTeamMemberList();
+    }
+
+    public void showTeamMemberList(){
+        MariaConnect mariaConnect = new MariaConnect();
         ArrayList<User> userArrayList = new ArrayList<User>();
         userArrayList = mariaConnect.showTeamMember(team_id);
 
-        ArrayAdapter<User> adapter;
-        adapter = new ArrayAdapter<User>(this, android.R.layout.simple_expandable_list_item_1, userArrayList);
+        ExpandableListView elv = (ExpandableListView) findViewById(R.id.elv);
+        TeamMemberListAdapter adapter;
 
-        ListView list = (ListView) findViewById(R.id.memberList);
-        list.setAdapter(adapter);
+        adapter = new TeamMemberListAdapter(this, userArrayList);
+        elv.setAdapter(adapter);
 
-        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        list.setDivider(new ColorDrawable(Color.WHITE));
-        list.setDividerHeight(2);
+        elv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                /*
+                if (all_book.get(groupPosition).getListID() == 0) {
+                    //내가 판매등록한 책의 세부정보로 넘어가는 버튼
+                    Intent intent = new Intent(getApplicationContext(), MypageRegisterActivity.class);
+
+                    intent.putExtra("bookID", all_book.get(groupPosition).getBookId().get(childPosition));
+                    intent.putExtra("bookTitle", all_book.get(groupPosition).getTitle().get(childPosition));
+                    intent.putExtra("bookAuthor", all_book.get(groupPosition).getAuthor().get(childPosition));
+                    intent.putExtra("bookCover", all_book.get(groupPosition).getImgUrl().get(childPosition));
+                    intent.putExtra("bookISBN", all_book.get(groupPosition).getIsbn().get(childPosition));
+                    intent.putExtra("bookPubdate", all_book.get(groupPosition).getPubdate().get(childPosition));
+                    intent.putExtra("bookPublisher", all_book.get(groupPosition).getPublisher().get(childPosition));
+                    intent.putExtra("cource", all_book.get(groupPosition).getCourse().get(childPosition));
+                    intent.putExtra("professor", all_book.get(groupPosition).getProfessor().get(childPosition));
+                    intent.putExtra("sellerPrice", all_book.get(groupPosition).getSellerPrice().get(childPosition));
+                    intent.putExtra("comment", all_book.get(groupPosition).getComment().get(childPosition));
+                    intent.putExtra("status", all_book.get(groupPosition).getStatus().get(childPosition));
+                    intent.putExtra("bookPrice", all_book.get(groupPosition).getPrice().get(childPosition));
+                    intent.putExtra("owner", all_book.get(groupPosition).getOwner().get(childPosition));
+
+                    intent.putExtra("username", username);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("token", token);
+
+                    startActivity(intent);
+
+
+                } else if (all_book.get(groupPosition).getListID() == 1) {
+
+                    //세부정보로 넘어가는 버튼
+                    Intent intent = new Intent(getApplicationContext(), MypageRequestActivity.class);
+                    intent.putExtra("requestId", all_book.get(groupPosition).getRequestId().get(childPosition));
+                    intent.putExtra("bookTitle", all_book.get(groupPosition).getTitle().get(childPosition));
+                    intent.putExtra("bookAuthor", all_book.get(groupPosition).getAuthor().get(childPosition));
+                    intent.putExtra("bookCover", all_book.get(groupPosition).getImgUrl().get(childPosition));
+                    intent.putExtra("bookISBN", all_book.get(groupPosition).getIsbn().get(childPosition));
+                    intent.putExtra("bookPubdate", all_book.get(groupPosition).getPubdate().get(childPosition));
+                    intent.putExtra("bookPublisher", all_book.get(groupPosition).getPublisher().get(childPosition));
+                    intent.putExtra("cource", all_book.get(groupPosition).getCourse().get(childPosition));
+                    intent.putExtra("professor", all_book.get(groupPosition).getProfessor().get(childPosition));
+                    intent.putExtra("sellerPrice", all_book.get(groupPosition).getSellerPrice().get(childPosition));
+                    intent.putExtra("comment", all_book.get(groupPosition).getComment().get(childPosition));
+                    intent.putExtra("status", all_book.get(groupPosition).getStatus().get(childPosition));
+                    intent.putExtra("bookPrice", all_book.get(groupPosition).getPrice().get(childPosition));
+                    intent.putExtra("owner", all_book.get(groupPosition).getOwner().get(childPosition));
+
+                    intent.putExtra("username", username);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("token", token);
+
+                    startActivity(intent);
+
+                }
+                */
+
+                return false;
+            }
+        });
     }
-
-
+    protected void redirectLoginActivity() {
+        final Intent intent = new Intent(this, TeamMemberInvite.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("team_id",team_id);
+        startActivity(intent);
+        finish();
+    }
+    public void onClickinvite(View view) {
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(TeamMainActivity.this);
+        alert_confirm.setMessage("팀원을 초대하시겠습니까?").setCancelable(false).setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        UserManagement.requestLogout(new LogoutResponseCallback() {
+                            @Override
+                            public void onCompleteLogout() {
+                                redirectLoginActivity();
+                            }
+                        });
+                    }
+                }).setNegativeButton("CANCEL",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'No'
+                        return;
+                    }
+                });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
+    }
 }

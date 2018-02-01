@@ -8,10 +8,12 @@ public class User {
     private String userName;
     private String userEmail;
     private int userID;
+    private String phone;
 
     public User(){
         userName=null;
         userEmail=null;
+        phone="010-0000-0000";
     }
 
     public int getUserID() {
@@ -36,5 +38,13 @@ public class User {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         int teamNum = mariaConnect.getTeamNum(id); //마리아 디비에서 팀개수
         ArrayList<Team> team = new ArrayList<Team>();
         team = mariaConnect.showTeam(id); //내가 가입된 팀
-        int[] colorSrc = {Color.parseColor("#FFBB00"),Color.parseColor("#5CD1E5"),Color.parseColor("#FFB2F5"),Color.parseColor("#47C83E")};
+        int[] colorSrc = {Color.parseColor("#FAED7D"),Color.parseColor("#B2EBF4"),Color.parseColor("#FFB2D9"),Color.parseColor("#CEF279"), Color.parseColor("#FFA7A7")};
 
         TableLayout teamList = (TableLayout) findViewById(R.id.team_list);
         teamList.removeAllViews();
@@ -207,22 +207,12 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
         for(int i = 0; i < teamNum;i++) {
             Button ibtn = new Button(this);
-            /*
-            String str=String.format("drawable/teamcard"+(i%4+1));
-            int imageResource = getResources().getIdentifier(str, null, getPackageName());
-
-            BitmapDrawable drawable = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource);
-            Bitmap bitmap = drawable.getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, 100*5, 100*5, true);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-            */
 
             String team_id = team.get(i).getTeamid();
             String team_name = mariaConnect.getTeamName(team.get(i).getTeamid());
             team.get(i).setTeamName(team_name);
 
-            ibtn.setBackgroundTintList(ColorStateList.valueOf(colorSrc[i%4]));
-            //ibtn.setBackgroundResource(R.drawable.button_background);
+            ibtn.setBackgroundTintList(ColorStateList.valueOf(colorSrc[i%5]));
             ibtn.setText(team_name);
             ibtn.setTextColor(Color.BLACK);
             ibtn.setTextSize(20);
@@ -256,19 +246,12 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                 }
             });
         }
-        /*
-        String str2=String.format("drawable/dot");
-        int imageResource2 = getResources().getIdentifier(str2, null, getPackageName());
 
-        BitmapDrawable drawable2 = (BitmapDrawable)getApplicationContext().getResources().getDrawable(imageResource2);
-        Bitmap bitmap2 = drawable2.getBitmap();
-        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 100*5, 100*5, true);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap2);
-        */
         btn2 = new Button(this);
         btn2.setText("+");
-        btn2.setTextColor(Color.parseColor("#BCBCBC"));
+        btn2.setTextColor(Color.parseColor("#D5D5D5"));
         btn2.setTextSize(30);
+        btn2.setTextColor(Color.parseColor("#8C8C8C"));
         btn2.setWidth(0);
 
         tr.addView(btn2);

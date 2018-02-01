@@ -230,6 +230,36 @@ public class MariaConnect {
         return team_list;
     }
 
+    //팀원을 초대하기 위한 검색
+    public ArrayList<User> selectTeamMember(String username){
+        Connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Team> team_list = new ArrayList<Team>();
+        ArrayList<User> selectuser = new ArrayList<>();
+        try {
+            String mySQL = "select id, name, email from user where name like \'%"+username +"%\';";
+            stmt = Conn.createStatement();
+
+            rs = stmt.executeQuery(mySQL);
+
+            if(rs.next()) { //한 행씩 읽어들임.
+                User user = new User();
+                user.setUserID(rs.getInt("id"));
+                user.setUserName(rs.getString("name"));
+                user.setUserEmail(rs.getString("email"));
+                selectuser.add(user);
+            }
+
+            stmt.close();
+            Conn.close(); //사용한뒤 close
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+        }
+
+        return selectuser;
+    }
+
     //팀원 초대
     public void addTeamMember(int user_id, String team_id){
         Connect();

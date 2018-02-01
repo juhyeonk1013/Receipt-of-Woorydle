@@ -27,6 +27,7 @@
         <activity android:name=".ReceiptTextInsertActivity"> </activity>
         <activity android:name=".TextDetection"> </activity>
         <activity android:name=".TeamMainActivity"> </activity>
+        <activity android:name=".TeamMemberInvite"> </activity>
 
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="deea3ba3cef936a822bdeecc5a4c1ec0" />
