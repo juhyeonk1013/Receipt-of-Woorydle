@@ -5,6 +5,7 @@ package com.flowerroad.receiptofwoorydle;
  */
 
 public class User {
+    private String userimage;
     private String userName;
     private String userEmail;
     private int userID;
@@ -46,5 +47,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUserimage() {
+        return userimage;
+    }
+
+    public void setUserimage(String userimage) {
+        this.userimage = userimage;
     }
 }

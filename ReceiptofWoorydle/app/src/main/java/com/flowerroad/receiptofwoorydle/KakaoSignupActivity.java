@@ -91,7 +91,7 @@ public class KakaoSignupActivity extends Activity {
         }else{
             //존재하지 않으면 디비에 등록.
             Log.d("dddd "," falsefalse");
-            mariaConnect.signUpDB(userid,userName,userEmail);
+            mariaConnect.signUpDB(userid,userName,userEmail, userImage);
         }
 
         startActivity(intent);

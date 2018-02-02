@@ -47,7 +47,7 @@ public class MariaConnect {
         Statement stmt = null;
         ResultSet rs = null;
         try {
-            String mySQL = "select id, name, email from user where id=\'"+sessionid +"\';";
+            String mySQL = "select id from user where id=\'"+sessionid +"\';";
             stmt = Conn.createStatement();
 
             rs = stmt.executeQuery(mySQL);
@@ -57,9 +57,6 @@ public class MariaConnect {
             if(rs.next()) { //한 행씩 읽어들임.
                 return true;
 
-                //System.out.print(rs.getString("id")+" ");
-                //System.out.print(rs.getString("name")+" ");
-                //System.out.println(rs.getString("email"));
             }else{
                 return false;
             }
@@ -70,13 +67,13 @@ public class MariaConnect {
         return false;
     }
     //첫 가입시 DB에 저장
-    public static void signUpDB(int user_id, String user_name, String user_email){
+    public static void signUpDB(int user_id, String user_name, String user_email, String user_image){
         Connect();
         Statement stmt = null;
         int rs = -1;
 
         try {
-            String mySQL = "insert into user(id, name, email) values("+user_id+",\'"+user_name+"\',\'"+user_email+"\');";
+            String mySQL = "insert into user(id, name, email, image) values("+user_id+",\'"+user_name+"\',\'"+user_email+"\',\'"+user_image+"\');";
             stmt = Conn.createStatement();
             //삽입이나 수정시에는 executeUpdate 함수, rs는 int형을 사용하여야 하고
             //조회할때에는 executeQuery함수, rs는 ResultSet형을 사용하여야 한다.
@@ -134,7 +131,7 @@ public class MariaConnect {
         ResultSet rs = null;
         ArrayList<User> teamuser = new ArrayList<>();
         try {
-            String mySQL = "select user.id, user.name, user.email from user, teamlist where user.id = teamlist.user_id AND teamlist.team_id =\'"+team_id+"\';";
+            String mySQL = "select user.id, user.name, user.email, user.image from user, teamlist where user.id = teamlist.user_id AND teamlist.team_id =\'"+team_id+"\';";
             stmt = Conn.createStatement();
 
             rs = stmt.executeQuery(mySQL);
@@ -143,6 +140,7 @@ public class MariaConnect {
                 user.setUserID(rs.getInt("id"));
                 user.setUserName(rs.getString("name"));
                 user.setUserEmail(rs.getString("email"));
+                user.setUserimage(rs.getString("image"));
                 teamuser.add(user);
             }
 
@@ -238,7 +236,7 @@ public class MariaConnect {
         ArrayList<Team> team_list = new ArrayList<Team>();
         ArrayList<User> selectuser = new ArrayList<>();
         try {
-            String mySQL = "select id, name, email from user where name like \'%"+username +"%\';";
+            String mySQL = "select id, name, email, image from user where name like \'%"+username +"%\';";
             stmt = Conn.createStatement();
 
             rs = stmt.executeQuery(mySQL);
@@ -248,6 +246,7 @@ public class MariaConnect {
                 user.setUserID(rs.getInt("id"));
                 user.setUserName(rs.getString("name"));
                 user.setUserEmail(rs.getString("email"));
+                user.setUserimage(rs.getString("image"));
                 selectuser.add(user);
             }
 
@@ -279,6 +278,5 @@ public class MariaConnect {
         } catch (Exception ex) {
             System.out.println("Exception" + ex);
         }
-
     }
 }

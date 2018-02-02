@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by Juhyeon on 2016-11-26.
+ * Created by Juhyeon on 2018-02-01.
  */
 
 public class TeamMemberInviteListView extends LinearLayout {

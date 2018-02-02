@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 /**
- * Created by juhyun on 2018-01-26.
+ * Created by Juhyeon on 2018-02-01.
  */
 
 public class TeamMemberInvite extends AppCompatActivity {
@@ -49,7 +49,6 @@ public class TeamMemberInvite extends AppCompatActivity {
         listView.setEmptyView(findViewById(R.id.empty));
         teamMemberInviteListAdapter= new TeamMemberInviteListAdapter(this, inviteList);
         listView.setAdapter(teamMemberInviteListAdapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

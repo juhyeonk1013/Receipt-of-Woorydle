@@ -8,13 +8,13 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by Juhyeon on 2016-11-26.
+ * Created by Juhyeon on 2018-02-01.
  */
 
-/** 채팅목록을 작성하기 위한 어댑터 클래스 */
+/** 검색목록을 작성하기 위한 어댑터 클래스 */
 public class TeamMemberInviteListAdapter extends BaseAdapter{
     private Context mContext;
-    private ArrayList<User> inviteLists; //채팅목록을 저장할 어레이 리스트
+    private ArrayList<User> inviteLists; //검색 목록 저장할 어레이 리스트
 
     //생성자에 변수 설정
     public TeamMemberInviteListAdapter(Context context, ArrayList<User> inviteLists) {
@@ -22,7 +22,7 @@ public class TeamMemberInviteListAdapter extends BaseAdapter{
         this.inviteLists = inviteLists;
     }
 
-    //채팅방의 개수
+    //검색된 사람의 개수
     @Override
     public int getCount() { return inviteLists.size(); }
 
@@ -30,11 +30,10 @@ public class TeamMemberInviteListAdapter extends BaseAdapter{
     @Override
     public Object getItem(int position) { return inviteLists.get(position);}
 
-    //채팅방의 아이디
     @Override
     public long getItemId(int position) { return 0; }
 
-    //채팅방을 보여주는 View 함수
+    //초대할 사람을 보여주는 View 함수
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TeamMemberInviteListView inviteListView;
@@ -43,6 +42,7 @@ public class TeamMemberInviteListAdapter extends BaseAdapter{
         } else {
             inviteListView = (TeamMemberInviteListView) convertView;
         }
+
         inviteListView.setText(inviteLists.get(position).getUserName());
 
         return inviteListView; //리스트뷰 반환
