@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -47,8 +47,6 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements AddTeamDialog.AddTeamDialogListener {
-    private TextView textViewTeamname;
-
     public String teamName = "Flower Load";
     public String name;
     public String image;
@@ -59,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     public TextView userEmail;
     public Button btn2; //팀 추가 버튼
     Bitmap bitmap;
-    FloatingActionButton logoutBtn;
     SwipeRefreshLayout swipeRefresh;
 
     private BackPressCloseHandler backPressCloseHandler;
@@ -68,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //btn=(Button)findViewById(R.id.add_team);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -147,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
 
         final Intent intent = new Intent(this, TeamMainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("userName",name);
+        intent.putExtra("userImage",image);
+        intent.putExtra("userEmail",email);
         intent.putExtra("teamid",team_id);
         intent.putExtra("userid",id);
         startActivity(intent);
@@ -242,6 +240,9 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                     Intent intent = new Intent(MainActivity.this, TeamMainActivity.class);
                     intent.putExtra("teamid", finalTeam_id);
                     intent.putExtra("userid",id);
+                    intent.putExtra("userName",name);
+                    intent.putExtra("userImage",image);
+                    intent.putExtra("userEmail",email);
                     startActivity(intent);
                 }
             });

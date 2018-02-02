@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.*;
 
+import javax.xml.transform.Result;
+
 /**
  * Created by juhyun on 2018-01-24.
  */
@@ -233,7 +235,6 @@ public class MariaConnect {
         Connect();
         Statement stmt = null;
         ResultSet rs = null;
-        ArrayList<Team> team_list = new ArrayList<Team>();
         ArrayList<User> selectuser = new ArrayList<>();
         try {
             String mySQL = "select id, name, email, image from user where name like \'%"+username +"%\';";
@@ -241,12 +242,13 @@ public class MariaConnect {
 
             rs = stmt.executeQuery(mySQL);
 
-            if(rs.next()) { //한 행씩 읽어들임.
+            while(rs.next()) { //한 행씩 읽어들임.
                 User user = new User();
                 user.setUserID(rs.getInt("id"));
                 user.setUserName(rs.getString("name"));
                 user.setUserEmail(rs.getString("email"));
                 user.setUserimage(rs.getString("image"));
+
                 selectuser.add(user);
             }
 
@@ -279,4 +281,34 @@ public class MariaConnect {
             System.out.println("Exception" + ex);
         }
     }
+
+    //초대할 팀원이 이미 가입된 팀원인지 확인하는 함수
+    public boolean verifyTeamMember(int user_id, String team_id){
+        Connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Team> team_list = new ArrayList<Team>();
+        try {
+            String mySQL = "select * from teamlist where user_id="+user_id+" AND team_id = \'"+team_id+"\';";
+            stmt = Conn.createStatement();
+
+            rs = stmt.executeQuery(mySQL);
+            stmt.close();
+            Conn.close(); //사용한뒤 close
+
+            if(rs.next()) { //한 행씩 읽어들임.
+                //이미 존재
+                return true;
+
+            }else{
+                //존재하지 않음.
+                return false;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Exception" + ex);
+        }
+        return false;
+    }
+
 }

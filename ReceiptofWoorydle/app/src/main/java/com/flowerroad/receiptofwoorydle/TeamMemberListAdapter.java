@@ -82,43 +82,13 @@ public class TeamMemberListAdapter extends BaseExpandableListAdapter {
         //확장리스트의 명명을 한다.
         String listname = UserList.get(groupPosition).getUserName();
         final String listimage = UserList.get(groupPosition).getUserimage();
+        Bitmap bitmap = UserList.get(groupPosition).getBitmap();
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.listimage);
         TextView textView = (TextView) convertView.findViewById(R.id.listname);
         textView.setText(" "+listname);
         textView.setTextSize(20);
-
-        Thread mThread=new Thread(){
-            @Override
-            public void run(){
-
-                try{
-                    URL url = new URL(listimage);
-
-                    //웹에서 이미지를 가져온 뒤 이미지 뷰에 지정할 Bitmap 생성
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                } catch(IOException ex){
-                }
-            }
-        };
-
-        mThread.start();    //웹에서 이미지 가져오는 작업 시행
-        try{
-            //메인 스레드는 작업 스레드가 이미지 작업을 가져올 때까지
-            //대기해야 하므로 작업 스레드의 join() 메소드를 호출해서
-            //메인 스레드가 작업 스레드가 종료될 때 까지 기다리도록 한다.
-            mThread.join();
-            //작업 스레드에서 이미지 불러오는 작업을 완료 했기 때문에
-            //메인스레드에서 이미지 뷰에 이미지 지정
-            imageView.setImageBitmap(bitmap);
-        }catch(InterruptedException e){
-
-        }
+        imageView.setImageBitmap(bitmap);
 
         return convertView;
     }

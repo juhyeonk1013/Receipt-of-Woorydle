@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -44,16 +46,24 @@ public class TeamMainActivity extends AppCompatActivity {
     private int user_id;
     private TextView intro;
     private String team_name="";
+    String name;
+    String image;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
 
+        //액션바 홈버튼 표시
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         if (intent != null) {
             // MainActivity로부터 넘어온 데이터를 꺼낸다
-            //name = intent.getStringExtra("userName");
+            name = intent.getStringExtra("userName");
+            image = intent.getStringExtra("userImage");
+            email = intent.getStringExtra("userEmail");
             team_id = intent.getStringExtra("teamid");
             user_id = intent.getIntExtra("userid",0);
         }
@@ -161,23 +171,27 @@ public class TeamMainActivity extends AppCompatActivity {
             }
         });
     }
-    protected void redirectLoginActivity() {
+    protected void redirectInviteActivity() {
         final Intent intent = new Intent(this, TeamMemberInvite.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra("team_id",team_id);
+        intent.putExtra("userName",name);
+        intent.putExtra("userImage",image);
+        intent.putExtra("userEmail",email);
+        intent.putExtra("userid",user_id);
+        intent.putExtra("teamid",team_id);
         startActivity(intent);
         finish();
     }
     public void onClickinvite(View view) {
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(TeamMainActivity.this);
-        alert_confirm.setMessage("팀원을 초대하시겠습니까?").setCancelable(false).setPositiveButton("OK",
+        alert_confirm.setMessage("팀원 초대하기").setCancelable(false).setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UserManagement.requestLogout(new LogoutResponseCallback() {
                             @Override
                             public void onCompleteLogout() {
-                                redirectLoginActivity();
+                                redirectInviteActivity();
                             }
                         });
                     }
@@ -191,5 +205,26 @@ public class TeamMainActivity extends AppCompatActivity {
                 });
         AlertDialog alert = alert_confirm.create();
         alert.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        //or switch문을 이용하면 될듯 하다.
+        if (id == android.R.id.home) {
+            Toast.makeText(this, "홈아이콘 클릭", Toast.LENGTH_SHORT).show();
+            final Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("userName",name);
+            intent.putExtra("userImage",image);
+            intent.putExtra("userEmail",email);
+            intent.putExtra("userid",user_id);
+            startActivity(intent);
+            finish();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

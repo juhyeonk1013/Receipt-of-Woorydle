@@ -43,7 +43,7 @@ public class TeamMemberInviteListAdapter extends BaseAdapter{
             inviteListView = (TeamMemberInviteListView) convertView;
         }
 
-        inviteListView.setText(inviteLists.get(position).getUserName());
+        inviteListView.setText(inviteLists.get(position));
 
         return inviteListView; //리스트뷰 반환
     }
