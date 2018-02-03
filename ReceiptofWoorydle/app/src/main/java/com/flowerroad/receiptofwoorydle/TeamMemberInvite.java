@@ -38,6 +38,7 @@ public class TeamMemberInvite extends AppCompatActivity {
     String email;
     String image;
     int user_id;
+    String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class TeamMemberInvite extends AppCompatActivity {
             image = intent.getStringExtra("userImage");
             email = intent.getStringExtra("userEmail");
             team_id = intent.getStringExtra("teamid");
+            phone = intent.getStringExtra("userPhone");
             user_id = intent.getIntExtra("userid",0);
         }
 
@@ -132,6 +134,7 @@ public class TeamMemberInvite extends AppCompatActivity {
             intent.putExtra("userEmail",email);
             intent.putExtra("userid",user_id);
             intent.putExtra("teamid",team_id);
+            intent.putExtra("userPhone",phone);
             startActivity(intent);
             finish();
 

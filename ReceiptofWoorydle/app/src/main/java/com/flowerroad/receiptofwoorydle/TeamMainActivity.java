@@ -46,6 +46,7 @@ public class TeamMainActivity extends AppCompatActivity {
     private int user_id;
     private TextView intro;
     private String team_name="";
+    String phone;
     String name;
     String image;
     String email;
@@ -66,6 +67,7 @@ public class TeamMainActivity extends AppCompatActivity {
             email = intent.getStringExtra("userEmail");
             team_id = intent.getStringExtra("teamid");
             user_id = intent.getIntExtra("userid",0);
+            phone =intent.getStringExtra("userPhone");
         }
 
         MariaConnect mariaConnect = new MariaConnect();
@@ -179,6 +181,7 @@ public class TeamMainActivity extends AppCompatActivity {
         intent.putExtra("userEmail",email);
         intent.putExtra("userid",user_id);
         intent.putExtra("teamid",team_id);
+        intent.putExtra("userPhone",phone);
         startActivity(intent);
         finish();
     }
@@ -219,6 +222,7 @@ public class TeamMainActivity extends AppCompatActivity {
             intent.putExtra("userImage",image);
             intent.putExtra("userEmail",email);
             intent.putExtra("userid",user_id);
+            intent.putExtra("userPhone",phone);
             startActivity(intent);
             finish();
 

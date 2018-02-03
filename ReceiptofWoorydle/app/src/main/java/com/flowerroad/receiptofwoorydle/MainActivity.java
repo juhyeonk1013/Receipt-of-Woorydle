@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
     public String name;
     public String image;
     public String email;
+    public String phone;
     public int id;
+    public TextView userPhone;
     public TextView userName;
     public ImageView userImage;
     public TextView userEmail;
@@ -73,14 +75,17 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
             image = intent.getStringExtra("userImage");
             email = intent.getStringExtra("userEmail");
             id = intent.getIntExtra("userid",0);
+            phone = intent.getStringExtra("userPhone");
         }
 
         userImage = (ImageView) findViewById(R.id.user_image);
         userName = (TextView) findViewById(R.id.user_name);
         userEmail = (TextView) findViewById(R.id.user_email);
+        userPhone = (TextView) findViewById(R.id.user_phone);
 
         userName.setText(name+"님, 반갑습니다!");
         userEmail.setText(email);
+        userPhone.setText(phone.substring(0,3)+"-"+phone.substring(3,7)+"-"+phone.substring(7));
 
         Thread mThread=new Thread(){
             @Override
@@ -138,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         String team_id="";
         team_id = RandomStringUtils.randomAlphabetic(5)+RandomStringUtils.randomNumeric(5).toString();
         MariaConnect mariaConnect = new MariaConnect();
-        mariaConnect.makeTeam(id, team_id, teamname, name);
+        mariaConnect.makeTeam(id, team_id, teamname);
 
         final Intent intent = new Intent(this, TeamMainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -147,8 +152,9 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
         intent.putExtra("userEmail",email);
         intent.putExtra("teamid",team_id);
         intent.putExtra("userid",id);
+        intent.putExtra("userPhone",phone);
         startActivity(intent);
-       // finish();
+        finish();
     }
 
     public void onClickLogout(View view) {
@@ -207,11 +213,12 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
             Button ibtn = new Button(this);
 
             String team_id = team.get(i).getTeamid();
+            String leader_name = mariaConnect.getLeaderName(team.get(i).getTeamid());
             String team_name = mariaConnect.getTeamName(team.get(i).getTeamid());
             team.get(i).setTeamName(team_name);
 
             ibtn.setBackgroundTintList(ColorStateList.valueOf(colorSrc[i%5]));
-            ibtn.setText(team_name);
+            ibtn.setText(team_name+"\n\n@"+leader_name+"님의 팀\n");
             ibtn.setTextColor(Color.BLACK);
             ibtn.setTextSize(20);
             ibtn.setWidth(0);
@@ -243,7 +250,9 @@ public class MainActivity extends AppCompatActivity implements AddTeamDialog.Add
                     intent.putExtra("userName",name);
                     intent.putExtra("userImage",image);
                     intent.putExtra("userEmail",email);
+                    intent.putExtra("userPhone",phone);
                     startActivity(intent);
+                    finish();
                 }
             });
         }
